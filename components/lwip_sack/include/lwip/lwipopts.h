@@ -390,7 +390,7 @@ extern "C" {
 #endif
 
 #ifndef LWIP_DBG_TYPES_ON
-#define LWIP_DBG_TYPES_ON       LWIP_DBG_ON
+#define LWIP_DBG_TYPES_ON       LWIP_DBG_OFF
 #endif
 
 #ifndef LWIP_DEBUG_TIMERNAMES
@@ -1159,21 +1159,21 @@ extern "C" {
 #define LWIP_DBG_TYPES_ON               LWIP_DBG_ON
 #endif
 #ifndef IP_DEBUG
-#define IP_DEBUG                        LWIP_DBG_ON
+#define IP_DEBUG                        LWIP_DBG_OFF
 #endif
 #ifndef ETHARP_DEBUG
 #define ETHARP_DEBUG                   LWIP_DBG_OFF
 #endif
 #ifndef NETIF_DEBUG
-#define NETIF_DEBUG                     LWIP_DBG_ON
+#define NETIF_DEBUG                     LWIP_DBG_OFF
 #endif
 
 #ifndef L3_EVENT_MSG_DEBUG
-#define L3_EVENT_MSG_DEBUG        LWIP_DBG_ON
+#define L3_EVENT_MSG_DEBUG        LWIP_DBG_OFF
 #endif
 
 #ifndef MLD6_DEBUG
-#define MLD6_DEBUG        LWIP_DBG_ON
+#define MLD6_DEBUG        LWIP_DBG_OFF
 #endif
 
 #ifndef LWIP_NETIF_PROMISC
@@ -1900,7 +1900,7 @@ upto 255 interfaces . New versions donot have these restrictions but we stick to
  * debug messages of certain types.
  */
 #ifndef LWIP_DBG_TYPES_ON
-#define LWIP_DBG_TYPES_ON               LWIP_DBG_ON
+#define LWIP_DBG_TYPES_ON               LWIP_DBG_OFF
 #endif
 
 #ifndef LWIP_SOCKET_POLL

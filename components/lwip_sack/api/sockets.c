@@ -57,7 +57,6 @@
 #include "lwip/priv/tcpip_priv.h"
 #include "lwip/priv/api_msg.h"
 #include "lwip/mld6.h"
-#include "lwip/debug.h"
 
 #if LWIP_IPV6_DHCP6
 #include "lwip/dhcp6.h"
@@ -1187,12 +1186,8 @@ lwip_connect(int s, const struct sockaddr *name, socklen_t namelen)
   struct lwip_sock *sock;
   err_t err;
 
-  printf("[%s %d]\n",__FUNCTION__,__LINE__);
   LWIP_ERROR("lwip_connect: invalid address", (name != NULL),
              set_errno(EINVAL);  return -1);
-  printf("[%s %d]\n",__FUNCTION__,__LINE__);
-
-  LWIP_DEBUGF(SOCKETS_DEBUG, ("jiaxing( AF_UNSPEC)\n"));
 
   sock = get_socket(s);
   if (!sock) {

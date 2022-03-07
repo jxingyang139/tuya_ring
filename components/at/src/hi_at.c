@@ -588,14 +588,11 @@ hi_u32 at_uart_init(hi_void)
     }
 
     (hi_void)hi_uart_deinit(g_at_uart_port);
-
-	/*change the uart as the at test port*/
     ret = hi_uart_init(g_at_uart_port, &g_at_uart_cfg, HI_NULL);
     if (ret != HI_ERR_SUCCESS) {
         hi_at_printf("open uart%d failed.\r\n", (hi_u32)g_at_uart_port);
         return HI_ERR_FAILURE;
     }
-
     if (g_at_uart_port == HI_UART_IDX_0) {
         g_at_uart_baseaddr = HI_UART0_REG_BASE;
     } else if (g_at_uart_port == HI_UART_IDX_1) {
