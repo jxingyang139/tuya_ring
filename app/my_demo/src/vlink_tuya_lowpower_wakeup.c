@@ -645,7 +645,7 @@ static hi_void server_tcp_accept(hi_void)
     hi_s8 link_id = -1;
     hi_s32 ret;
     hi_u32 send_len;
-	hi_char *send_msg = "shit huawei";
+	hi_char *send_msg = "huawei";
     send_len = strlen(send_msg);
 
     resv_fd = accept(g_server_link.sfd, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
