@@ -1,0 +1,695 @@
+execute ota_builder with python...
+Compiling app/my_demo/src/app_main.c
+app/my_demo/src/app_main.c: In function 'peripheral_init_no_sleep':
+app/my_demo/src/app_main.c:389:5: warning: implicit declaration of function 'hi_sdio_set_powerdown_when_deep_sleep' [-Wimplicit-function-declaration]
+     hi_sdio_set_powerdown_when_deep_sleep(HI_FALSE);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Compiling app/my_demo/src/vlink_hichannel_main.c
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_wifi_wpa_start_dhcp':
+app/my_demo/src/vlink_hichannel_main.c:148:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+  hi_s32 ret;
+         ^~~
+app/my_demo/src/vlink_hichannel_main.c:147:23: warning: unused variable 'netifCB' [-Wunused-variable]
+  netif_ext_callback_t netifCB;
+                       ^~~~~~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_sta_connect_dhcp':
+app/my_demo/src/vlink_hichannel_main.c:252:10: warning: unused variable 'rc' [-Wunused-variable]
+  errno_t rc;
+          ^~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_sta_connect_task_proc':
+app/my_demo/src/vlink_hichannel_main.c:344:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_sta_connect_task':
+app/my_demo/src/vlink_hichannel_main.c:359:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'PDT_SYSTEM_SYSLINK_DeepSleep':
+app/my_demo/src/vlink_hichannel_main.c:493:10: warning: unused variable 'eventBit' [-Wunused-variable]
+   hi_u32 eventBit;
+          ^~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:492:10: warning: unused variable 'eventRet' [-Wunused-variable]
+   hi_u32 eventRet;
+          ^~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:491:10: warning: unused variable 'ret' [-Wunused-variable]
+   hi_s32 ret;
+          ^~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_hi_channel_get_mac':
+app/my_demo/src/vlink_hichannel_main.c:531:8: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+  pJson = cJSON_Print(pJsonRoot);
+        ^
+In file included from app/my_demo/src/vlink_hichannel_main.c:15:0:
+app/my_demo/src/vlink_hichannel_main.c:533:8: warning: format '%s' expects argument of type 'char *', but argument 6 has type 'cJSON * {aka struct cJSON *}' [-Wformat=]
+  MLOGD("--pJson[%s]-[%d]--\n", pJson, strlen((char*)pJson));
+        ^
+app/my_demo/src/vlink_hichannel_util.h:192:97: note: in definition of macro 'MLOGD'
+ #define MLOGD(fmt, args...) HI_LOG_Print(HI_LOG_LEVEL_DEBUG, HI_MODULE, __FUNCTION__, __LINE__, fmt, ##args)
+                                                                                                 ^~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_hi_channel_get_ip':
+app/my_demo/src/vlink_hichannel_main.c:579:61: warning: passing argument 1 of 'ip4addr_ntoa' from incompatible pointer type [-Wincompatible-pointer-types]
+     cJSON_AddStringToObject(pJsonRoot, "dns1", ip4addr_ntoa(&dns));
+                                                             ^
+In file included from components/lwip_sack/include/lwip/ip_addr.h:43:0,
+                 from app/my_demo/src/vlink_hichannel_main.c:7:
+components/lwip_sack/include/lwip/ip4_addr.h:217:7: note: expected 'const ip4_addr_t * {aka const struct ip4_addr *}' but argument is of type 'ip_addr_t * {aka struct ip_addr *}'
+ char *ip4addr_ntoa(const ip4_addr_t *addr);
+       ^~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:581:61: warning: passing argument 1 of 'ip4addr_ntoa' from incompatible pointer type [-Wincompatible-pointer-types]
+     cJSON_AddStringToObject(pJsonRoot, "dns2", ip4addr_ntoa(&dns));
+                                                             ^
+In file included from components/lwip_sack/include/lwip/ip_addr.h:43:0,
+                 from app/my_demo/src/vlink_hichannel_main.c:7:
+components/lwip_sack/include/lwip/ip4_addr.h:217:7: note: expected 'const ip4_addr_t * {aka const struct ip4_addr *}' but argument is of type 'ip_addr_t * {aka struct ip_addr *}'
+ char *ip4addr_ntoa(const ip4_addr_t *addr);
+       ^~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:592:8: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+  pJson = cJSON_Print(pJsonRoot);
+        ^
+In file included from app/my_demo/src/vlink_hichannel_main.c:15:0:
+app/my_demo/src/vlink_hichannel_main.c:593:79: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  MLOGD("vlink_hi_channel_get_ip========[%s]====len[%d]=====\n", pJson, strlen(pJson));
+                                                                               ^
+app/my_demo/src/vlink_hichannel_util.h:192:104: note: in definition of macro 'MLOGD'
+ #define MLOGD(fmt, args...) HI_LOG_Print(HI_LOG_LEVEL_DEBUG, HI_MODULE, __FUNCTION__, __LINE__, fmt, ##args)
+                                                                                                        ^~~~
+In file included from platform/os/Huawei_LiteOS/components/lib/libsec/include/securectype.h:302:0,
+                 from platform/os/Huawei_LiteOS/components/lib/libsec/include/securec.h:15,
+                 from app/my_demo/src/vlink_hichannel_main.c:4:
+platform/os/Huawei_LiteOS/components/lib/libc/musl/include/string.h:522:8: note: expected 'const char *' but argument is of type 'cJSON * {aka struct cJSON *}'
+ size_t strlen (const char *);
+        ^~~~~~
+In file included from app/my_demo/src/vlink_hichannel_main.c:15:0:
+app/my_demo/src/vlink_hichannel_main.c:593:8: warning: format '%s' expects argument of type 'char *', but argument 6 has type 'cJSON * {aka struct cJSON *}' [-Wformat=]
+  MLOGD("vlink_hi_channel_get_ip========[%s]====len[%d]=====\n", pJson, strlen(pJson));
+        ^
+app/my_demo/src/vlink_hichannel_util.h:192:97: note: in definition of macro 'MLOGD'
+ #define MLOGD(fmt, args...) HI_LOG_Print(HI_LOG_LEVEL_DEBUG, HI_MODULE, __FUNCTION__, __LINE__, fmt, ##args)
+                                                                                                 ^~~
+app/my_demo/src/vlink_hichannel_main.c:594:53: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  ret = hi_channel_send_to_host((char*)pJson, strlen(pJson));
+                                                     ^~~~~
+In file included from platform/os/Huawei_LiteOS/components/lib/libsec/include/securectype.h:302:0,
+                 from platform/os/Huawei_LiteOS/components/lib/libsec/include/securec.h:15,
+                 from app/my_demo/src/vlink_hichannel_main.c:4:
+platform/os/Huawei_LiteOS/components/lib/libc/musl/include/string.h:522:8: note: expected 'const char *' but argument is of type 'cJSON * {aka struct cJSON *}'
+ size_t strlen (const char *);
+        ^~~~~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_localserver_start_keeplive':
+app/my_demo/src/vlink_hichannel_main.c:619:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_hi_channel_set_device_filter':
+app/my_demo/src/vlink_hichannel_main.c:635:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_wifi_startap_event_proc':
+app/my_demo/src/vlink_hichannel_main.c:651:3: warning: 'return' with no value, in function returning non-void
+   return;
+   ^~~~~~
+app/my_demo/src/vlink_hichannel_main.c:637:15: note: declared here
+ static hi_s32 vlink_wifi_startap_event_proc(hi_void)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:656:2: warning: 'return' with no value, in function returning non-void
+  return;
+  ^~~~~~
+app/my_demo/src/vlink_hichannel_main.c:637:15: note: declared here
+ static hi_s32 vlink_wifi_startap_event_proc(hi_void)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:639:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+  hi_s32 ret;
+         ^~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_softap_event_task_proc':
+app/my_demo/src/vlink_hichannel_main.c:665:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_softap_event_task':
+app/my_demo/src/vlink_hichannel_main.c:681:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_wifi_startap':
+app/my_demo/src/vlink_hichannel_main.c:689:9: warning: unused variable 'ret' [-Wunused-variable]
+  hi_u32 ret;
+         ^~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_softap_task_proc':
+app/my_demo/src/vlink_hichannel_main.c:775:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_start_softap_task':
+app/my_demo/src/vlink_hichannel_main.c:790:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_fota_send_ok_msg_to_camera':
+app/my_demo/src/vlink_hichannel_main.c:804:8: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+  pJson = cJSON_Print(pJsonRoot);
+        ^
+In file included from app/my_demo/src/vlink_hichannel_main.c:15:0:
+app/my_demo/src/vlink_hichannel_main.c:806:8: warning: format '%s' expects argument of type 'char *', but argument 6 has type 'cJSON * {aka struct cJSON *}' [-Wformat=]
+  MLOGD("--pJson[%s]-[%d]--\n", pJson, strlen((char*)pJson));
+        ^
+app/my_demo/src/vlink_hichannel_util.h:192:97: note: in definition of macro 'MLOGD'
+ #define MLOGD(fmt, args...) HI_LOG_Print(HI_LOG_LEVEL_DEBUG, HI_MODULE, __FUNCTION__, __LINE__, fmt, ##args)
+                                                                                                 ^~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'hi_channel_rx_callback':
+app/my_demo/src/vlink_hichannel_main.c:958:4: warning: implicit declaration of function 'vlink_start_startota_task'; did you mean 'vlink_start_softap_task'? [-Wimplicit-function-declaration]
+    vlink_start_startota_task();
+    ^~~~~~~~~~~~~~~~~~~~~~~~~
+    vlink_start_softap_task
+app/my_demo/src/vlink_hichannel_main.c:961:4: warning: implicit declaration of function 'vlink_start_fota_proc_ota_data'; did you mean 'vlink_start_softap_task'? [-Wimplicit-function-declaration]
+    vlink_start_fota_proc_ota_data(buf, length);
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    vlink_start_softap_task
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_hichannel_sdio_reinit_proc':
+app/my_demo/src/vlink_hichannel_main.c:1172:2: warning: implicit declaration of function 'hi_cache_flush' [-Wimplicit-function-declaration]
+  hi_cache_flush();
+  ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:1173:2: warning: implicit declaration of function 'hi_cache_disable'; did you mean 'hi_watchdog_disable'? [-Wimplicit-function-declaration]
+  hi_cache_disable();
+  ^~~~~~~~~~~~~~~~
+  hi_watchdog_disable
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_gpio_power_on':
+app/my_demo/src/vlink_hichannel_main.c:1219:8: warning: implicit declaration of function 'hi_gpio_set_ouput_val'; did you mean 'hi_gpio_set_output_val'? [-Wimplicit-function-declaration]
+  ret = hi_gpio_set_ouput_val(HI_PDT_SYSTEM_SOC_POWER_PIN, val);
+        ^~~~~~~~~~~~~~~~~~~~~
+        hi_gpio_set_output_val
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_set_ssid_pwd_test':
+app/my_demo/src/vlink_hichannel_main.c:1286:10: warning: unused variable 'camera_pwd' [-Wunused-variable]
+  hi_char camera_pwd[HI_WIFI_MAX_KEY_LEN + 1] = {0};
+          ^~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:1285:10: warning: unused variable 'camera_ssid' [-Wunused-variable]
+  hi_char camera_ssid[HI_WIFI_MAX_SSID_LEN + 1] = {0};
+          ^~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:1306:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_set_wifi_status':
+app/my_demo/src/vlink_hichannel_main.c:1317:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+In file included from include/base/hi_types_base.h:555:0,
+                 from include/base/hi_task.h:25,
+                 from app/my_demo/src/vlink_hichannel_main.c:2:
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_main_task':
+include/base/hi_errno.h:24:61: warning: return makes pointer from integer without a cast [-Wint-conversion]
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_hichannel_main.c:1333:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+include/base/hi_errno.h:24:61: warning: return makes pointer from integer without a cast [-Wint-conversion]
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_hichannel_main.c:1345:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:1376:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+At top level:
+app/my_demo/src/vlink_hichannel_main.c:1308:15: warning: 'vlink_set_wifi_status' defined but not used [-Wunused-function]
+ static hi_u32 vlink_set_wifi_status(hi_void)
+               ^~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:1283:15: warning: 'vlink_set_ssid_pwd_test' defined but not used [-Wunused-function]
+ static hi_u32 vlink_set_ssid_pwd_test(hi_void)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:484:15: warning: 'PDT_SYSTEM_SYSLINK_DeepSleep' defined but not used [-Wunused-function]
+ static hi_s32 PDT_SYSTEM_SYSLINK_DeepSleep(hi_u32 argc, hi_char **argv)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:463:15: warning: 'PDT_SYSTEM_SYSLINK_ExitStandby' defined but not used [-Wunused-function]
+ static hi_s32 PDT_SYSTEM_SYSLINK_ExitStandby(hi_u32 argc, hi_char **argv)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:442:15: warning: 'PDT_SYSTEM_SYSLINK_Standby' defined but not used [-Wunused-function]
+ static hi_s32 PDT_SYSTEM_SYSLINK_Standby(hi_u32 argc, hi_char **argv)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:435:15: warning: 'PDT_SYSTEM_SYSLINK_ProcNetInfoMsg' defined but not used [-Wunused-function]
+ static hi_s32 PDT_SYSTEM_SYSLINK_ProcNetInfoMsg(hi_void)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c:138:16: warning: 'STA_WIFI_NetifExtCb' defined but not used [-Wunused-function]
+ static hi_void STA_WIFI_NetifExtCb(struct netif *netif, netif_nsc_reason_t reason, const netif_ext_callback_args_t *args)
+                ^~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_hichannel_main.c: In function 'vlink_PDT_SYSTEM_AddPacketFilterToSyslink':
+app/my_demo/src/vlink_hichannel_main.c:1199:9: warning: 'ret' is used uninitialized in this function [-Wuninitialized]
+  return ret;
+         ^~~
+Compiling app/my_demo/src/vlink_tuya_lowpower_wakeup.c
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:50:0: warning: "HI_WIFI_MAX_SSID_LEN" redefined
+ #define HI_WIFI_MAX_SSID_LEN 256
+ 
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:25:0:
+include/base/hi_wifi_api.h:163:0: note: this is the location of the previous definition
+ #define HI_WIFI_MAX_SSID_LEN  32
+ 
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_generate_payload_data':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:116:8: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+  pJson = cJSON_Print(pJsonRoot);
+        ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:120:19: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  datalen = strlen(pJson);
+                   ^~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:17:0:
+include/base/hi_stdlib.h:285:15: note: expected 'const char *' but argument is of type 'cJSON * {aka struct cJSON *}'
+ extern size_t strlen(const char *src);
+               ^~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_parse_payload_data':
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:139:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:149:11: note: in expansion of macro 'HI_ERR_FAILURE'
+    return HI_ERR_FAILURE;
+           ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:154:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:164:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:174:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:184:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/base/hi_types.h:21:0,
+                 from include/base/hi_cpu.h:25,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:8:
+include/base/hi_errno.h:24:61: warning: 'return' with a value, in function returning void
+ #define  HI_ERR_FAILURE                                     (hi_u32)(-1)
+                                                             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:194:10: note: in expansion of macro 'HI_ERR_FAILURE'
+   return HI_ERR_FAILURE;
+          ^~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:128:6: note: declared here
+ void tuya_parse_payload_data(hi_char *rw_data, hi_char *random, hi_char *author, hi_char *signature)
+      ^~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_base_authention_request_on':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:223:19: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+  g_payload_pkt.iv = (char *)malloc(IV_RANDOM_PKG_SIZE);
+                   ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:228:25: warning: pointer targets in passing argument 1 of 'tuya_ipc_device_id_get' differ in signedness [-Wpointer-sign]
+  tuya_ipc_device_id_get(g_payload_pkt.devid);
+                         ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:26:0:
+app/my_demo/include/vlink_tuya_lowpower_wakeup.h:102:8: note: expected 'hi_char * {aka char *}' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ hi_u32 tuya_ipc_device_id_get(hi_char *str);
+        ^~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:230:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  g_payload_pkt.devid = (char)malloc(IV_RANDOM_PKG_SIZE);
+                        ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:230:22: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  g_payload_pkt.devid = (char)malloc(IV_RANDOM_PKG_SIZE);
+                      ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:231:35: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+  g_payload_pkt.devid_len = strlen(g_payload_pkt.devid); 
+                                   ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:17:0:
+include/base/hi_stdlib.h:285:15: note: expected 'const char *' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ extern size_t strlen(const char *src);
+               ^~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:234:22: warning: pointer targets in passing argument 1 of 'aes_cbc_128_encrypt' differ in signedness [-Wpointer-sign]
+  aes_cbc_128_encrypt(g_payload_pkt.devid, encrypt_data);
+                      ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:26:0:
+app/my_demo/include/vlink_tuya_lowpower_wakeup.h:96:9: note: expected 'hi_char * {aka char *}' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ hi_char aes_cbc_128_encrypt(hi_char *rw_data, hi_char *encrypt_data);
+         ^~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:237:101: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+  ret = mbedtls_base64_encode(encrypt_data, sizeof(encrypt_data), &len, g_payload_pkt.devid, strlen( g_payload_pkt.devid));
+                                                                                                     ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:17:0:
+include/base/hi_stdlib.h:285:15: note: expected 'const char *' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ extern size_t strlen(const char *src);
+               ^~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:237:30: warning: pointer targets in passing argument 1 of 'mbedtls_base64_encode' differ in signedness [-Wpointer-sign]
+  ret = mbedtls_base64_encode(encrypt_data, sizeof(encrypt_data), &len, g_payload_pkt.devid, strlen( g_payload_pkt.devid));
+                              ^~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:27:0:
+third_party/mbedtls/include/mbedtls/base64.h:86:5: note: expected 'unsigned char *' but argument is of type 'char *'
+ int mbedtls_base64_encode( unsigned char *dst, size_t dlen, size_t *olen,
+     ^~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:245:2: warning: implicit declaration of function 'base_64_encrypt'; did you mean 'base_64_decrypt'? [-Wimplicit-function-declaration]
+  base_64_encrypt(encrypt_data, g_signature);
+  ^~~~~~~~~~~~~~~
+  base_64_decrypt
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:248:20: warning: pointer targets in passing argument 2 of 'random_string' differ in signedness [-Wpointer-sign]
+  random_string(32, g_rand_str);
+                    ^~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:203:9: note: expected 'hi_uchar * {aka unsigned char *}' but argument is of type 'hi_char * {aka char *}'
+ hi_bool random_string(hi_u8 len, hi_uchar *str)
+         ^~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:255:59: warning: pointer targets in passing argument 5 of 'tuya_generate_payload_data' differ in signedness [-Wpointer-sign]
+  tuya_generate_payload_data(1, 1, auth_data, g_signature, g_payload_pkt.data); /*need changes*/
+                                                           ^~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:102:8: note: expected 'hi_char * {aka char *}' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ hi_u32 tuya_generate_payload_data(hi_u32 type, hi_u32 method, hi_char *author, hi_char *sign, hi_char *data)
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:256:34: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+  g_payload_pkt.data_len = strlen(g_payload_pkt.data);
+                                  ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:17:0:
+include/base/hi_stdlib.h:285:15: note: expected 'const char *' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ extern size_t strlen(const char *src);
+               ^~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:258:22: warning: pointer targets in passing argument 1 of 'aes_cbc_128_encrypt' differ in signedness [-Wpointer-sign]
+  aes_cbc_128_encrypt(g_payload_pkt.data, encrypt_data);
+                      ^~~~~~~~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:26:0:
+app/my_demo/include/vlink_tuya_lowpower_wakeup.h:96:9: note: expected 'hi_char * {aka char *}' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ hi_char aes_cbc_128_encrypt(hi_char *rw_data, hi_char *encrypt_data);
+         ^~~~~~~~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:285:22: warning: passing argument 2 of 'memcpy_s' makes integer from pointer without a cast [-Wint-conversion]
+  memcpy_s(&buf[idx], g_payload_pkt.devid, g_payload_pkt.devid, g_payload_pkt.devid_len);
+                      ^~~~~~~~~~~~~
+In file included from components/lwip_sack/include/lwip/opt.h:95:0,
+                 from components/lwip_sack/include/lwip/netifapi.h:35,
+                 from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:30:
+platform/os/Huawei_LiteOS/components/lib/libsec/include/securec.h:152:25: note: expected 'size_t {aka unsigned int}' but argument is of type 'hi_uchar * {aka unsigned char *}'
+     SECUREC_API errno_t memcpy_s(void *dest, size_t destMax, const void *src, size_t count);
+                         ^~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_base_authention_response':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:321:13: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+  payload.iv = &buf[7];
+             ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:326:16: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+  payload.devid = &buf[idx + 2];
+                ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:344:20: warning: passing argument 2 of 'strncpy' makes pointer from integer without a cast [-Wint-conversion]
+  strncpy(rand_str, strlen(g_utc_time) + 5 + 7, 32);
+                    ^~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:5:0:
+platform/os/Huawei_LiteOS/components/lib/libc/musl/include/string.h:184:7: note: expected 'const char * restrict' but argument is of type 'size_t {aka unsigned int}'
+ char *strncpy (char *__restrict, const char *__restrict, size_t);
+       ^~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:347:20: warning: pointer targets in passing argument 2 of 'strcat' differ in signedness [-Wpointer-sign]
+  strcat(calc_sign, payload.devid);
+                    ^~~~~~~
+In file included from app/my_demo/src/vlink_tuya_lowpower_wakeup.c:5:0:
+platform/os/Huawei_LiteOS/components/lib/libc/musl/include/string.h:207:7: note: expected 'const char * restrict' but argument is of type 'hi_uchar * {aka unsigned char *}'
+ char *strcat (char *__restrict, const char *__restrict);
+       ^~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:313:25: warning: unused variable 'pwd_pkt' [-Wunused-variable]
+  link_low_power_packets pwd_pkt;
+                         ^~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_heartbeat_task':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:504:6: warning: unused variable 'i' [-Wunused-variable]
+  int i;
+      ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:570:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'server_tcp_accept':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:653:11: warning: unused variable 'link_id' [-Wunused-variable]
+     hi_s8 link_id = -1;
+           ^~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'link_monitor_socket':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:681:11: warning: unused variable 'i' [-Wunused-variable]
+     hi_u8 i;
+           ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'client_state_machine_check_idle':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:705:9: warning: unused variable 'i' [-Wunused-variable]
+     int i;
+         ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_ipc_device_id_get':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:768:20: warning: pointer targets in passing argument 2 of 'random_string' differ in signedness [-Wpointer-sign]
+  random_string(16, str);
+                    ^~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:203:9: note: expected 'hi_uchar * {aka unsigned char *}' but argument is of type 'hi_char * {aka char *}'
+ hi_bool random_string(hi_u8 len, hi_uchar *str)
+         ^~~~~~~~~~~~~
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'aes_cbc_128_encrypt':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:369:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'hmac_sha_256_encrypt':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:375:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'aes_cbc_128_decrypt':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:387:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'hmac_sha_256_decrypt':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:392:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'tuya_ipc_device_id_get':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:769:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c: In function 'client_state_machine_check_close':
+app/my_demo/src/vlink_tuya_lowpower_wakeup.c:725:3: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
+   printf("link %d CLOSED\r\n", i);
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Archiving build/build_tmp/libs/app/my_demo/libmy_demo.a
+riscv32-unknown-elf-ranlib build/build_tmp/libs/app/my_demo/libmy_demo.a
+riscv32-unknown-elf-gcc -Iplatform/os/Huawei_LiteOS/kernel/include -Iconfig -DCONFIG_CHIP_PKT_32K -DHI_BOARD_ASIC -DHI_ON_FLASH -E build/link/system_config.ld.S -o build/build_tmp/scripts/system_config.ld -P
+nvimg_builder(["build/build_tmp/scripts/system_config.ld"], ["build/link/system_config.ld.S"])
+product_name_list: ['sta']
+xml h file: /home/jason/code/Hi3861L/tools/nvtool/h_file/nv
+/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta
+app_subver_list: ['demo']
+current subver_name:demo
+root_dir: /home/jason/code/Hi3861L/tools/nvtool
+mdm_xml: /home/jason/code/Hi3861L/tools/nvtool/xml_file/mss_nvi_db.xml
+HNV NAME:mss_nvi_db.xml
+nv_tool: /home/jason/code/Hi3861L/tools/nvtool/tools/nv/cdbm
+app_subver_temp_dir:/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/outside_demo
+make app_subver_temp_dir
+mdmxml:/home/jason/code/Hi3861L/tools/nvtool/xml_file/mss_nvi_db.xml
+src_xml_list: ['/home/jason/code/Hi3861L/tools/nvtool/xml_file/mss_nvi_db.xml']
+combin_xml:/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/mss_nvi_db.xml
+root_list [<Element 'HISTUDIO' at 0x7fcc225ed410>]
+hi_nv_modify_by_cfg
+cfg_file: nv
+
+cmd_line= ('/home/jason/code/Hi3861L/tools/nvtool/tools/nv/cdbm', '/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/outside_demo/nv.xml', '/home/jason/code/Hi3861L/tools/nvtool/h_file/nv', '/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/outside_demo/nv')
+/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/outside_demo/nv.xml
+/home/jason/code/Hi3861L/tools/nvtool/h_file/nv
+/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/Hi3861L_my_demo/outside_demo/nv
+===========Init HDB Start===========
+*********strDataTypeDefPath:/home/jason/code/Hi3861L/tools/nvtool/h_file/nv/../nv/nv_modem_struct_def.txt
+*********strDataTypeDefPath:/home/jason/code/Hi3861L/tools/nvtool/h_file/nv/../nv/nv_modem_struct_def.txt
+*********strDataTypeDefPath:/home/jason/code/Hi3861L/tools/nvtool/h_file/nv/../nv/nv_factory_struct_def.txt
+===========Init HDB finish===========
+===========Write NV Buffer To File===========
+===========Write NV Buffer Finish===========
+RETURN VALUE:0
+dst_hnv= /home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/hnv/Hi3861L_my_demo.hnv
+Factory NV total num:10
+NV_FILE_STRU :28
+Factory NV total size:824
+Normal NV total num:19
+NV_FILE_STRU :28
+Normal NV total size:1168
+build hnv OK:/home/jason/code/Hi3861L/tools/nvtool/out_nv_bin/sta/nv/hnv/Hi3861L_my_demo.hnv
+ENDING
+riscv32-unknown-elf-gcc -Iplatform/os/Huawei_LiteOS/kernel/include -Iconfig -DCONFIG_CHIP_PKT_32K -DHI_BOARD_ASIC -DHI_ON_FLASH -DFLASH_FIRM_START=4248512 -E build/link/link.ld.S -o build/build_tmp/scripts/link.lds -P
+riscv32-unknown-elf-ld -nostartfiles -nostdlib -static --gc-sections -L/home/jason/toolchain/hcc_riscv32/bin/../lib/gcc/riscv32-unknown-elf/7.3.0 -Lbuild/build_tmp/libs/app/my_demo -Lbuild/build_tmp/libs/components/OHOS -Lbuild/build_tmp/libs/components/at -Lbuild/build_tmp/libs/components/iperf2 -Lbuild/build_tmp/libs/components/lwip_sack -Lbuild/build_tmp/libs/platform/drivers -Lbuild/build_tmp/libs/platform/os/Huawei_LiteOS -Lbuild/build_tmp/libs/platform/os/Huawei_LiteOS/net/wpa_supplicant -Lbuild/build_tmp/libs/platform/system -Lbuild/build_tmp/libs/third_party/mbedtls -Lbuild/build_tmp/scripts -Lbuild/libs -Lbuild/libs/hi3861l/release/no_mesh -Lbuild/scripts -Lcomponents/OHOS/ndk/libs -Tbuild/build_tmp/scripts/link.lds -Map=output/bin/Hi3861L_my_demo.map -o output/bin/Hi3861L_my_demo.out --start-group -lHwKeystoreSDK -lOHOS -ladc -lat -lc_flash -lcfg -lcmsis -lcpup -ldiag -ldrv -lflash -lgcc -lgpio -lhichainsdk -lhichannel_dev -lhilinkadapter_3861 -lhos_kv_store -lhos_native_file -lio -liothardware -liperf -lkitframework -llitekernel_flash -lltoswpa -llwip -lm_flash -lmbedtls -lmy_demo -lnetcfgdevicesdk -lnetcfgota -lnetcfgservice -loem_auth_config -loem_auth_result_storage -lota -lparttab -lposix -lres_cfg -lripple -lsdio -lsec_flash -lspiffs -lsystem -ltoken_static -ltsensor -luart -lupg -lwifi -lwifi_flash -lwifiaware -lwifiservice -lwpa -lwpa_hisi -lwpa_src --whole-archive --no-whole-archive --end-group
+riscv32-unknown-elf-objcopy -O binary output/bin/Hi3861L_my_demo.out build/build_tmp/cache/Hi3861L_my_demo.bin
+baseimg_builder(["build/build_tmp/cache/Hi3861L_my_demo_base.bin", "build/build_tmp/cache/Hi3861L_my_demo_kernel.bin"], ["build/build_tmp/cache/Hi3861L_my_demo.bin"])
+cleanup(["build/build_tmp/cache/Hi3861L_my_demo_base.bin", "build/build_tmp/cache/Hi3861L_my_demo_kernel.bin"], ["build/build_tmp/cache/Hi3861L_my_demo.bin"])
+ota_builder(["build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin"], ["build/build_tmp/cache/Hi3861L_my_demo_base.bin", "build/build_tmp/cache/Hi3861L_my_demo_kernel.bin"])
+********************package kernel&nv upgrade file********************
+upg kernel file    in: build/build_tmp/cache/Hi3861L_my_demo_kernel.bin
+upg normal nv file in: build/build_tmp/nv/Hi3861L_my_demo_normal.hnv
+upg file          out: build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin
+[common_head_offset=0][common_head_size=96]
+[common_key_offset=96][common_key_size=288]
+[common_head_sign_offset=384][common_head_sign_size=256]
+[section_head_offset=640][section_head_size=64]
+[upg_file_sign_offset=704][upg_file_sign_size=256]
+[padding_offset=632552][padding_size=8]
+[upg fill user info]chip:b'Hi3861L'
+-------------build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin image info print start-------------
+[image_id=0x3c78961e][struct_version=0x0]]
+[section_offset=0x280][section_len=0x9a470]
+[file_type=0xf0][file_version=0x0][encrypt_flag=0x42]
+[file_len=0x9a6f0][key_len=0x120]
+[file_attr=0x44]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[aes_key[0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[aes_iv [0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[common key][00]=[0x0]
+[common key][01]=[0x0]
+[common key][30]=[0x0]
+[common key][31]=[0x0]
+[common sign][00]=[0xdc]
+[common sign][01]=[0xd9]
+[common sign][30]=[0x9]
+[common sign][31]=[0x1f]
+[section sign][00]=[0x5a]
+[section sign][01]=[0x55]
+[section sign][30]=[0xf9]
+[section sign][31]=[0xda]
+[image_id=0x3c78961e][struct_version=0x0]]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[section_count=0x2]
+[section0_compress=0x0][section0_offset=0x3c0][section0_len=0x99328]
+[section1_compress=0x0][section1_offset=0x996e8][section1_len=0x1000]
+-------------build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin image info print end--------------
+riscv32-unknown-elf-objdump -d output/bin/Hi3861L_my_demo.out > output/bin/Hi3861L_my_demo.asm
+burn_bin_builder(["output/bin/Hi3861L_my_demo_burn.bin", "output/bin/Hi3861L_my_demo_allinone.bin"], ["build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin", "output/bin/Hi3861L_loader_signed.bin"])
+********************package hiburn file********************
+hbin flash boot file in : output/bin/Hi3861L_boot_signed.bin
+hbin factory nv file in : build/build_tmp/nv/Hi3861L_my_demo_factory.hnv
+hbin normal nv file  in : build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin
+hbin upg file        in : build/build_tmp/nv/Hi3861L_my_demo_factory.hnv
+hbin file           out : output/bin/Hi3861L_my_demo_burn.bin
+-------------output/bin/Hi3861L_my_demo_burn.bin image info print start-------------
+[bin_size]=[0xa76f0]
+[image_id=0x3c78961e][struct_version=0x0]]
+[section_offset=0x280][section_len=0x9a470]
+[file_type=0xf0][file_version=0x0][encrypt_flag=0x42]
+[file_len=0x9a6f0][key_len=0x120]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[aes_key[0,1,14,15]=[0x0][0x0][0x0][0x0]]
+[aes_iv[0,1,14,15]=[0x0][0x0][0x0][0x0]]
+-------------output/bin/Hi3861L_my_demo_burn.bin image info print end--------------
+['output/bin/Hi3861L_loader_signed.bin', 'output/bin/Hi3861L_my_demo_burn.bin']
+[0, 0]
+[0, 2097152]
+[15808, 685808]
+[0, 1]
+4022250975
+boot_ota_builder(["output/bin/Hi3861L_my_demo_flash_boot_ota.bin"], ["output/bin/Hi3861L_boot_signed.bin"])
+********************package boot upgrade file********************
+boot upg file  in: output/bin/Hi3861L_boot_signed.bin
+boot upg file out: output/bin/Hi3861L_my_demo_flash_boot_ota.bin
+[common_head_offset=0][common_head_size=96]
+[common_key_offset=96][common_key_size=288]
+[common_head_sign_offset=384][common_head_sign_size=256]
+[section_head_offset=640][section_head_size=64]
+[upg_file_sign_offset=704][upg_file_sign_size=256]
+[padding_offset=0][padding_size=0]
+[upg fill user info]chip:b'Hi3861L'
+-------------output/bin/Hi3861L_my_demo_flash_boot_ota.bin image info print start-------------
+[image_id=0x3c78961e][struct_version=0x0]]
+[section_offset=0x280][section_len=0x5d60]
+[file_type=0xe1][file_version=0x0][encrypt_flag=0x42]
+[file_len=0x5fe0][key_len=0x120]
+[file_attr=0x44]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[aes_key[0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[aes_iv [0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[common key][00]=[0x0]
+[common key][01]=[0x0]
+[common key][30]=[0x0]
+[common key][31]=[0x0]
+[common sign][00]=[0x15]
+[common sign][01]=[0x67]
+[common sign][30]=[0xbb]
+[common sign][31]=[0x6a]
+[section sign][00]=[0xca]
+[section sign][01]=[0x2]
+[section sign][30]=[0xb0]
+[section sign][31]=[0x7b]
+[image_id=0x3c78961e][struct_version=0x0]]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[section_count=0x1]
+[section0_compress=0x0][section0_offset=0x3c0][section0_len=0x5c20]
+[section1_compress=0x0][section1_offset=0x0][section1_len=0x0]
+-------------output/bin/Hi3861L_my_demo_flash_boot_ota.bin image info print end--------------
+compress_ota_builder(["output/bin/Hi3861L_my_demo_ota.bin"], ["build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin"])
+********************package compress upgrade file********************
+compress upg file in:  build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin
+compress upg file out: output/bin/Hi3861L_my_demo_ota.bin
+lzma compress tool : /home/jason/code/Hi3861L/build/scripts/../../tools/lzma_tool/lzma_tool
+lzma    src   file : build/build_tmp/cache/Hi3861L_my_demo_ota_temp.bin
+lzma    out   file : build/build_tmp/cache/Hi3861L_my_demo_ota_temp.lzma
+
+LZMA 19.00 (x64) : Igor Pavlov : Public domain : 2019-02-21
+
+Input size:  632560 (0 MiB)
+                                                                Output size: 399336 (0 MiB)
+[upgbin-compressbin]0x9a6f0-0x13b000
+[common_head_offset=0][common_head_size=96]
+[common_key_offset=96][common_key_size=288]
+[common_head_sign_offset=384][common_head_sign_size=256]
+[section_head_offset=640][section_head_size=64]
+[upg_file_sign_offset=704][upg_file_sign_size=256]
+[padding_offset=400296][padding_size=8]
+[upg fill user info]chip:b'Hi3861L'
+-------------output/bin/Hi3861L_my_demo_ota.bin image info print start-------------
+[image_id=0x3c78961e][struct_version=0x0]]
+[section_offset=0x280][section_len=0x61930]
+[file_type=0xf0][file_version=0x0][encrypt_flag=0x42]
+[file_len=0x61bb0][key_len=0x120]
+[file_attr=0x44]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[aes_key[0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[aes_iv [0-1-14-15]=[0x0][0x0][0x0][0x0]]
+[common key][00]=[0x0]
+[common key][01]=[0x0]
+[common key][30]=[0x0]
+[common key][31]=[0x0]
+[common sign][00]=[0x24]
+[common sign][01]=[0x27]
+[common sign][30]=[0x95]
+[common sign][31]=[0xdf]
+[section sign][00]=[0xe6]
+[section sign][01]=[0xdd]
+[section sign][30]=[0x6a]
+[section sign][31]=[0xfb]
+[image_id=0x3c78961e][struct_version=0x0]]
+[hash_alg=0x0][sign_alg=0x3f][sign_param=0x0]
+[section_count=0x1]
+[section0_compress=0x1][section0_offset=0x3c0][section0_len=0x617e8]
+[section1_compress=0x0][section1_offset=0x0][section1_len=0x0]
+-------------output/bin/Hi3861L_my_demo_ota.bin image info print end--------------
+[?1034h[95m
+< ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ >
+                              BUILD SUCCESS                              
+< ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ >
+[0m

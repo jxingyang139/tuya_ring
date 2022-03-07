@@ -1,0 +1,137 @@
+# Hisilicon Tech. Co., Ltd.
+# USAGE:
+# cmd: bin\openocd.exe -c "gdb_port 50000" -f interface\Hi-ft2232d-ftdi-swd.cfg  -f target\Hi3861-RISCV\Hi3861-RISCV-SWD-CORESIGHT
+# cmd: bin\openocd.exe -c "gdb_port 50000" -f interface\jlink.cfg  -f target\Hi3861-RISCV\Hi3861-RISCV-SWD-CORESIGHT
+# cmd: telnet localhost 4444
+
+# enable coresight-swd mode
+# mww 0x40010260 1
+
+adapter_khz 500
+transport select swd
+
+set  _CHIPNAME hi3861
+set _CPUTAPID 0x5BA02477
+set  _ENDIAN little
+
+swd newdap $_CHIPNAME cpu -irlen 5 -ircapture 0x1 -irmask 0x0f -expected-id $_CPUTAPID
+dap create $_CHIPNAME.dap -chain-position $_CHIPNAME.cpu
+set _TARGETNAME $_CHIPNAME.cpu
+target create $_TARGETNAME riscvcs -endian $_ENDIAN -apsel 0 -dap $_CHIPNAME.dap -dbgbase 0x80000000
+
+
+# 0X7c0~0x7cf 2008=7d8
+riscv expose_csrs 932-943,1984-1999,2008
+riscv set_prefer_sba off
+
+init
+halt
+# If load_image fails, reduce the FREQUENCY
+adapter_khz 2000
+# 15000 may ok
+
+# load bin to the FLASH, maybe 0x400000
+proc load_bin {firmwarefile addr} {
+reset halt
+# Close I/D Cache
+reg csr0x7c0 0
+reg csr0x7c1 0
+
+# reset SFC
+mww 0x4001003c 0x1fe3
+mww 0x4001003c 0x1fff
+sleep 10
+
+# enable flash write
+mww 0x40800200 0xC080EB1E
+
+# erase whole flash chip
+mww 0x40800308 0x6
+mww 0x40800300 0x3 
+mww 0x40800308 0xC7
+mww 0x40800300 0x3
+sleep 6000
+
+load_image $firmwarefile $addr bin
+echo "load burn.bin successful"
+}
+
+proc flash_erase { } {
+reset halt
+# Close I/D Cache
+reg csr0x7c0 0
+reg csr0x7c1 0
+
+# enable flash write
+mww 0x40800200 0xC080EB1E
+
+# erase whole flash chip
+mww 0x40800308 0x6
+mww 0x40800300 0x3 
+mww 0x40800308 0xC7
+mww 0x40800300 0x3
+sleep 6000
+}
+
+proc flash_protect { } {
+# disable flash write
+mww 0x40800200 0x8080EB1E
+}
+
+proc load_bin_erase { } {
+reset halt
+# Close I/D Cache
+reg csr0x7c0 0
+reg csr0x7c1 0
+
+# reset SFC
+mww 0x4001003c 0x1fe3
+mww 0x4001003c 0x1fff
+sleep 10
+
+# enable flash write
+mww 0x40800200 0xC080EB1E
+
+# erase whole flash chip
+mww 0x40800308 0x6
+mww 0x40800300 0x3 
+mww 0x40800308 0xC7
+mww 0x40800300 0x3
+sleep 6000
+
+set LOAD_ADDR 0x400000
+set LOAD_FILE "load_dump\\Hi3861_SWD-demo_burn.bin"
+set DUMP_FILE "load_dump\\Hi3861_SWD-demo_burn-dump.bin"
+
+set FILESIZE [file size $LOAD_FILE]
+
+load_image $LOAD_FILE $LOAD_ADDR bin
+dump_image $DUMP_FILE $LOAD_ADDR $FILESIZE
+}
+
+proc load_bin_test { } {
+reset halt
+# Close I/D Cache
+reg csr0x7c0 0
+reg csr0x7c1 0
+
+# reset SFC
+mww 0x4001003c 0x1fe3
+mww 0x4001003c 0x1fff
+sleep 10
+
+# enable flash write
+mww 0x40800200 0xC080EB1E
+
+sleep 10
+
+set LOAD_ADDR 0x500000
+set LOAD_FILE "load_dump\\Hi3861_SWD-demo_burn.bin"
+set DUMP_FILE "load_dump\\Hi3861_SWD-demo_burn-dump-noerase.bin"
+
+set FILESIZE [file size $LOAD_FILE]
+
+load_image $LOAD_FILE $LOAD_ADDR bin
+dump_image $DUMP_FILE $LOAD_ADDR $FILESIZE
+}
+
