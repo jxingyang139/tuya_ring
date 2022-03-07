@@ -86,11 +86,11 @@ hi_u8 iv[16] = {0x1e, 0x25, 0x77, 0xb8, 0x66, 0xc1, 0x10,
 
 
 /*heartbeat data packets*/
-hi_u8 heartbeat_packet[5] ={0x1, 0x2, 0x0, 0x0, 0x0};
+hi_u8 const heartbeat_packet[5] ={0x1, 0x2, 0x0, 0x0, 0x0};
 
 
 /*wakeup host data packets*/
-hi_u8 wakeup_packet[9] ={0x1, 0x3, 0x0, 0x0, 0x4, 0x11, 0x23, 0xab, 0xbf};
+hi_u8 const wakeup_packet[9] ={0x1, 0x3, 0x0, 0x0, 0x4, 0x11, 0x23, 0xab, 0xbf};
 
 
 /*
@@ -99,7 +99,7 @@ hi_u8 wakeup_packet[9] ={0x1, 0x3, 0x0, 0x0, 0x4, 0x11, 0x23, 0xab, 0xbf};
 	*sign: it's encrypt data [input]
 	*data: member of playload data, without encrypt now
 */
-hi_u32 tuya_generate_payload_data(hi_u32 type, hi_u32 method, hi_char *author, hi_char *sign, hi_char *data)
+hi_u32 tuya_gen_payload_data(hi_u32 type, hi_u32 method, hi_char *author, hi_char *sign, hi_char *data)
 {
 	hi_u32 datalen;
 	cJSON *pJsonRoot = NULL;
@@ -203,48 +203,59 @@ hi_bool random_string(hi_u8 len, hi_uchar *str)
 }
 
 /*authentication data packet*/
-hi_u32 tuya_base_authention_request_on(char *buf)
+hi_u32 tuya_generate_authention_request_pgk(char *buf)
 {
 	char encrypt_data[256];
-	char rand_str[32];
 	char auth_data[256]={"time="};
     size_t len;
 	hi_u32 ret;
+	hi_char encry_devid[32];
 
-	/*iv is 16byte random data*/
+	/*generate iv packet which is 16byte random data*/
 	g_payload_pkt.iv = (char *)malloc(IV_RANDOM_PKG_SIZE);
 	g_payload_pkt.iv_len = IV_RANDOM_PKG_SIZE;
 	random_string(IV_RANDOM_PKG_SIZE, g_payload_pkt.iv);
 
 	//FIXME:this code will be change in release version
-	tuya_ipc_device_id_get(g_payload_pkt.devid);
-
 	g_payload_pkt.devid = (char)malloc(IV_RANDOM_PKG_SIZE);
 	g_payload_pkt.devid_len = strlen(g_payload_pkt.devid); 
+	tuya_ipc_device_id_get(g_payload_pkt.devid);
 
 	/*origin devid encrypt with aes_cbc*/
-	aes_cbc_128_encrypt(g_payload_pkt.devid, encrypt_data);
-
-	/*base 64 encrypt*/
-	ret = mbedtls_base64_encode(encrypt_data, sizeof(encrypt_data), &len, g_payload_pkt.devid, strlen( g_payload_pkt.devid));
+	aes_cbc_128_encrypt(g_payload_pkt.devid, encry_devid);
+	/*origin devid encrypt with base64*/
+	ret = mbedtls_base64_encode(encry_devid, sizeof(encry_devid), &len, g_payload_pkt.devid, strlen(g_payload_pkt.devid));
     if( ret != 0 ) {
-		printf("[%s %d]base64 encode has failed!\n", __FUNCTION__, __LINE__);
+		MLOGE("[%s %d]base64 encode has failed!\n");
 		return HI_ERR_FAILURE;
 	}
 
-	/*data signature encrypt: 1.hmac sha256 2.base 64*/
-	hmac_sha_256_encrypt(g_signature, encrypt_data);
-	base_64_encrypt(encrypt_data, g_signature);
-
 	/*generate the 32byte random str for authorization*/
 	random_string(32, g_rand_str);
-	/*genrate authorization, it's include the utc time and random string*/
+
+	/*get the signature original data*/
+	strcat(g_signature, encry_devid);
+	strcat(g_signature, g_utc_time);
+	strcat(g_signature, g_rand_str);
+
+	//FixMe, my be need change for size
+	/*row signature data encrypt: 1.hmac sha256 2.base 64*/
+	g_payload_pkt.data = (char *)malloc(256);
+	hmac_sha_256_encrypt(g_signature, encrypt_data);
+	ret = mbedtls_base64_encode(encrypt_data, sizeof(encrypt_data), &len, g_signature, strlen(g_signature));
+    if( ret != 0 ) {
+		MLOGE("base64 encode has failed!\n");
+		return HI_ERR_FAILURE;
+	}
+
+	/*genrate  row authorization, it's include the utc time and random string*/
 	strcat(auth_data, g_utc_time);
 	strcat(auth_data, ",random=");
-	strcat(auth_data, rand_str);
-	printf("auth_data = %s",auth_data);
+	strcat(auth_data, g_rand_str);
+	MLOGD("auth_data = %s",auth_data);
 
-	tuya_generate_payload_data(1, 1, auth_data, g_signature, g_payload_pkt.data);	/*need changes*/
+	/*generate payload data*/
+	tuya_gen_payload_data(1, 1, auth_data, g_signature, g_payload_pkt.data);
 	g_payload_pkt.data_len = strlen(g_payload_pkt.data);
 	/*payload data encrypt*/
 	aes_cbc_128_encrypt(g_payload_pkt.data, encrypt_data);
@@ -283,10 +294,11 @@ hi_u32 tuya_base_authention_request_on(char *buf)
 	memcpy_s(&buf[idx], g_payload_pkt.data_len, g_payload_pkt.data, g_payload_pkt.data_len);
 	idx += g_payload_pkt.data_len;
 
-	return idx;
+	return HI_ERR_SUCCESS;
 }
 
-void tuya_base_authention_request_off()
+
+void tuya_release_authention_request_pgk()
 {
 	free(g_payload_pkt.iv);
 	g_auth_pkt.version = 0;
@@ -295,7 +307,19 @@ void tuya_base_authention_request_off()
 }
 
 
-hi_u32 tuya_base_authention_response(hi_char *buf)
+hi_char *tuya_get_heart_beat_packet()
+{
+	return heartbeat_packet;
+}
+
+
+hi_char *tuya_get_wake_up_packet()
+{
+	return wakeup_packet;
+}
+
+
+hi_u32 tuya_authention_pkg_response(hi_char *buf)
 {
 	hi_u32 idx;
 	hi_char decrypt_data[512];
@@ -307,6 +331,8 @@ hi_u32 tuya_base_authention_response(hi_char *buf)
 	hi_char rand_str[32];
 	hi_char utc_str[16];
 	hi_char calc_sign[128];
+    size_t len;
+	hi_u32 ret;
 
 	/*get iv data packets*/
 	payload.iv_len = buf[5] + (buf[6] << 8);
@@ -317,7 +343,7 @@ hi_u32 tuya_base_authention_response(hi_char *buf)
 	payload.devid_len = buf[idx] + (buf[idx + 1] << 8);
 	payload.devid = &buf[idx + 2];
 	idx = idx + payload.devid_len + 2;
-	
+
 	/*decrypt data frist, two bytes is len*/
 	idx = idx + 2;
 	aes_cbc_128_decrypt(&buf[idx], decrypt_data);
@@ -327,7 +353,7 @@ hi_u32 tuya_base_authention_response(hi_char *buf)
 
 	/*compare payload data's random string*/
 	if(!memcmp(g_rand_str, rand_str, strlen(g_rand_str))) {
-		printf("random = %s g_rand_str =%s\n", rand_str, g_rand_str);
+		MLOGE("random string compare fail! random = %s g_rand_str =%s\n", rand_str, g_rand_str);
 		return HI_ERR_FAILURE;
 	}
 
@@ -342,11 +368,15 @@ hi_u32 tuya_base_authention_response(hi_char *buf)
 
 	/*data signature encrypt: 1.hmac sha256 2.base 64*/
 	hmac_sha_256_encrypt(calc_sign, encrypt_data);
-	base_64_encrypt(encrypt_data, calc_sign);
+	ret = mbedtls_base64_encode(encrypt_data, sizeof(encrypt_data), &len, calc_sign, strlen(calc_sign));
+    if( ret != 0 ) {
+		MLOGE("base64 encode has failed! encrypt_data =%s calc_sign =%s\n", encrypt_data, calc_sign);
+		return HI_ERR_FAILURE;
+	}
 
 	/*compare signature with calc result*/
 	if(!memcmp(g_signature, calc_sign, strlen(g_signature))) {
-		printf("random = %s g_rand_str =%s\n", calc_sign, g_signature);
+		MLOGE("signature failed! random = %s g_rand_str =%s\n", calc_sign, g_signature);
 		return HI_ERR_FAILURE;
 	}
 
@@ -366,13 +396,6 @@ hi_char hmac_sha_256_encrypt(hi_char *rw_data, hi_char *encrypt_data)
 	;
 }
 
-/*
-hi_char base_64_encrypt(hi_char *rw_data, hi_char *encrypt_data)
-{
-	;
-}
-*/
-
 hi_char aes_cbc_128_decrypt(hi_char *encrypt_data, hi_char *rw_data)
 {
 	;
@@ -383,12 +406,6 @@ hi_char hmac_sha_256_decrypt(hi_char *encrypt_data, hi_char *rw_data)
 	;
 }
 
-/*
-hi_char base_64_decrypt(hi_char *encrypt_data, hi_char *rw_data)
-{
-	;
-}
-*/
 
 /*3861 is client, connect tuya server*/
 hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)

@@ -88,7 +88,7 @@ typedef enum {
 
 #define IV_RANDOM_PKG_SIZE        16
 
-hi_u32 tuya_generate_payload_data(hi_u32 type, hi_u32 method, hi_char *author, hi_char *sign, hi_char *data);
+hi_u32 tuya_gen_payload_data(hi_u32 type, hi_u32 method, hi_char *author, hi_char *sign, hi_char *data);
 
 hi_u32 start_tuya_tcp_server(hi_u16 local_port);
 hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port);
