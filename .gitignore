@@ -1,0 +1,6 @@
+output/
+.sconsign.dblite
+build/build_tmp/
+build/scripts/__pycache__/
+tools/nvtool/__pycache__/build_nv.cpython-37.pyc
+
