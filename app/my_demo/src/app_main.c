@@ -64,7 +64,6 @@
 #include "lwip/netifapi.h"
 #endif
 
-#include "vlink_tuya_lowpower_wakeup.h"
 #include "app_demo_upg_verify.h"
 #include "hi_wifi_api.h"
 #ifdef CONFIG_HILINK
@@ -636,6 +635,9 @@ hi_void app_main(hi_void)
     InitWifiGlobalLock();
     NetCfgSampleBiz();
 #endif
+
+	hi_char buf_test[256];
+	tuya_generate_authention_request(buf_test);
 
 	hichannel_vlink_main();
 #endif

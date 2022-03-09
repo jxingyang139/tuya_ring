@@ -1,4 +1,3 @@
-
 #include <hi_task.h>
 #include "hi_types_base.h"
 #include "securec.h"
@@ -10,8 +9,8 @@
 #include <hi_nv.h>
 #include <hi_time.h>
 #include <hi_io.h>
+#include "vlink_tuya_net_client.h"
 
-#include "vlink_tuya_lowpower_wakeup.h"
 #include "vlink_hichannel_util.h"
 #include "hi_repeater_api.h"
 #include "cJSON.h"
