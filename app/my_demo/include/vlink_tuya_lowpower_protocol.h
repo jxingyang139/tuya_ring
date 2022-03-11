@@ -3,30 +3,36 @@
 
 #define IV_RANDOM_STRING_SIZE			16
 #define PAYLOAD_DATA_AUTHORIZATION_LEN	128
-#define PAYLOAD_DATA_SIGNATURE_LEN		128
-#define PAYLOAD_DATA_UTC_TIME_LEN		16
+#define PAYLOAD_DATA_SIGNATURE_LEN		256
+#define PAYLOAD_DATA_UTC_TIME_LEN		32
 #define PAYLOAD_DATA_RANDOM_LEN			32
-#define PAYLOAD_DEVID_STRING_SIZE		32
+#define PAYLOAD_DEVID_STRING_LEN		32
+
+#define HASH_SHA256_LEN					32
+#define HASH_PROC_BLOCK_SIZE 			256
+
+#define PADDING_BLOCK_SIZE 16
 
 
 typedef struct {
-    hi_u8 type;
-    hi_u8 method;
+    hi_u32 type;
+    hi_u32 method;
     hi_uchar authorization[PAYLOAD_DATA_AUTHORIZATION_LEN];
     hi_uchar row_signature[PAYLOAD_DATA_SIGNATURE_LEN];
-	hi_uchar encry_signature[PAYLOAD_DATA_SIGNATURE_LEN];
+	hi_uchar encry_signature[PAYLOAD_DATA_SIGNATURE_LEN*2];
 	hi_uchar time[PAYLOAD_DATA_UTC_TIME_LEN];
-	hi_uchar random[PAYLOAD_DATA_RANDOM_LEN+1];
+	hi_uchar random[PAYLOAD_DATA_RANDOM_LEN*2];
 } link_payload_data_packets;
 
 
 typedef struct {
-    hi_u16 iv_len;
-    hi_uchar iv[IV_RANDOM_STRING_SIZE+1];
-    hi_u16 devid_len;
-    hi_uchar row_devid[PAYLOAD_DEVID_STRING_SIZE+1];
-    hi_uchar encry_devid[PAYLOAD_DEVID_STRING_SIZE*2];
-	hi_u16 data_len;
+    hi_u32 iv_len;
+    hi_uchar iv[IV_RANDOM_STRING_SIZE];
+	hi_u32 row_devid_len;
+    hi_uchar row_devid[PAYLOAD_DEVID_STRING_LEN];
+    hi_u32 encry_devid_len;
+    hi_uchar encry_devid[(PAYLOAD_DEVID_STRING_LEN+PADDING_BLOCK_SIZE)*2];
+	hi_u32 data_len;
 	link_payload_data_packets data;
 } link_payload_packets;
 
@@ -48,12 +54,12 @@ typedef enum {
 
 
 
-
 hi_u32 hmac_sha256_encrypt(hi_uchar *src, hi_uchar *hash);
-hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content);
-hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content);
-hi_u32 tuya_generate_authention_request(hi_uchar *buf);
-hi_u32 tuya_authention_pkg_response(hi_uchar *buf);
+hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u32 src_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content);
+hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content, hi_u32 des_len);
+hi_u32 tuya_send_authention_request(hi_uchar *buf);
+hi_u32 tuya_recevie_authention_response(hi_uchar *buf);
+void pkcs7_padding(hi_char * buf, int buflen, int blocksize, hi_char * paddingBuf);
 
 
 #endif

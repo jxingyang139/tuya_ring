@@ -636,8 +636,11 @@ hi_void app_main(hi_void)
     NetCfgSampleBiz();
 #endif
 
-	hi_char buf_test[256];
-	tuya_generate_authention_request(buf_test);
+	hi_char buf_test[512];
+	tuya_send_authention_request(buf_test);
+	
+	printf("hilink init success!\n");
+	tuya_recevie_authention_response(buf_test);
 
 	hichannel_vlink_main();
 #endif

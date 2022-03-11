@@ -33,10 +33,10 @@ extern "C" {
 #endif
 
 #define AES_PHY_ADDR_ALIGNSIZE 4
-#define PADDING_BLOCK_SIZE 16
+
 #define ALIGN(x, mask)  (((x) + ((mask)-1)) & ~((mask)-1))
 
-static void pkcs7_padding(hi_char * buf, int buflen, int blocksize, hi_char * paddingBuf)
+void pkcs7_padding(hi_char * buf, int buflen, int blocksize, hi_char * paddingBuf)
 {
 	int i;
 	int p = blocksize - buflen % blocksize;
@@ -47,7 +47,6 @@ static void pkcs7_padding(hi_char * buf, int buflen, int blocksize, hi_char * pa
 	for( i = buflen; i < buflen + p; i++ ) {
 	    paddingBuf[i] = p;
 	}
-	paddingBuf[i] = '\0';
 }
 
 
@@ -81,7 +80,7 @@ static int aes_buf_phy_addr_align(const unsigned char *input,
 }
 
 
-hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content)
+hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content, hi_u32 des_len)
 {
 	hi_u32 ret;
 	hi_u32 cs;
@@ -107,24 +106,25 @@ hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar 
 		goto fail;
 	}
 
-	padding_buf = (hi_uchar*)hi_malloc(HI_MOD_ID_APP_COMMON, strlen(sr_content) + PADDING_BLOCK_SIZE + 1);
+	padding_buf = (hi_uchar*)hi_malloc(HI_MOD_ID_APP_COMMON, des_len);
 	if (padding_buf == NULL) {
-		MLOGE("malloc failure !");
+		MLOGE("malloc failure !\n");
 		goto fail;
 	}
-	(hi_void)pkcs7_padding(sr_content, strlen(sr_content), 16, padding_buf);
+	(hi_void)pkcs7_padding(sr_content, sr_len, 16, padding_buf);
 
 	ret = hi_cipher_aes_config(&aes_ctrl);
 	if (ret != HI_ERR_SUCCESS) {
+		MLOGE("hi_cipher_aes_config!");
 		goto crypto_fail;
 	}
 
-	ret = hi_cipher_aes_crypto((uintptr_t)padding_buf, (uintptr_t)des_content, strlen(padding_buf), HI_TRUE);
+	ret = hi_cipher_aes_crypto((uintptr_t)padding_buf, (uintptr_t)des_content, des_len, HI_TRUE);
 	if (ret != HI_ERR_SUCCESS) {
+		MLOGE("hi_cipher_aes_crypto failed!\n");
 		goto crypto_fail;
 	}
 
-success:
 	(hi_void) hi_cipher_aes_destroy_config();
 	hi_free(HI_MOD_ID_APP_COMMON, padding_buf);
 	return HI_ERR_SUCCESS;
@@ -132,13 +132,12 @@ crypto_fail:
 	(hi_void) hi_cipher_aes_destroy_config();
 	hi_free(HI_MOD_ID_APP_COMMON, padding_buf);
 fail:
-    return HI_ERR_FAILURE;
+    return ret;
 }
 
-hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content)
+hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u32 src_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content)
 {
     hi_u32 ret;
-    hi_u32 cs;
 
     hi_cipher_aes_ctrl aes_ctrl = {
         .random_en = HI_FALSE,
@@ -162,12 +161,22 @@ hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u8 *key, hi_u8 *iv, hi_uchar 
 
 	ret = hi_cipher_aes_config(&aes_ctrl);
 	if (ret != HI_ERR_SUCCESS) {
+		MLOGE("hi_cipher_aes_config error!\n");
 		goto crypto_fail;
 	}
-	ret = hi_cipher_aes_crypto((uintptr_t)sr_content, (uintptr_t)des_content, strlen(sr_content), HI_FALSE);
+
+	printf("src_len =%d sr_content=0x%x, des_content=0x%x\n",src_len, sr_content, des_content);
+	printf("strlen(sr_content)=%d, strlen(des_content)=%d\n", strlen(sr_content), strlen(des_content));
+	
+	ret = hi_cipher_aes_crypto((uintptr_t)sr_content, (uintptr_t)des_content, src_len, HI_FALSE);
 	if (ret != HI_ERR_SUCCESS) {
+		
+		MLOGE("hi_cipher_aes_crypto error!\n");
 		goto crypto_fail;
 	}
+
+	(hi_void) hi_cipher_aes_destroy_config();
+	return HI_ERR_SUCCESS;
 
 crypto_fail:
     (hi_void) hi_cipher_aes_destroy_config();
