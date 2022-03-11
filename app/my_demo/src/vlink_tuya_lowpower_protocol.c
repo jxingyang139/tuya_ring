@@ -44,7 +44,6 @@ hi_u8 const fixed_iv[16] = {0x1e, 0x25, 0x77, 0xb8, 0x66, 0xc1, 0x10,
 				0x33, 0x93, 0x69, 0xcb, 0xa8, 0x2c, 0x54,
 				0xe5, 0xab};
 
-
 /*heartbeat data packets*/
 hi_u8 const heartbeat_packet[5] ={0x1, 0x2, 0x0, 0x0, 0x0};
 
@@ -129,14 +128,6 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 		MLOGE("hmac_sha256_encrypt encode has failed! ret: 0x%x\n", ret);
 		return HI_ERR_FAILURE;
 	}
-	for(int i = 0; i<32; i++)
-	{
-		if(i%8 == 0)
-			printf("\n");
-		printf("hash_sha256[%d]=%d ",i,hash_sha256[i]);
-	}
-	printf("\n");
-
 	ret = mbedtls_base64_encode(g_payload_pkg.data.encry_signature, sizeof(g_payload_pkg.data.encry_signature),
 								&len, hash_sha256, HASH_SHA256_LEN);
 	if( ret != 0 ) {
@@ -195,17 +186,6 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	memcpy_s(&buf[idx], g_payload_pkg.data_len, data_encry_buffer, g_payload_pkg.data_len);
 	idx += g_payload_pkg.data_len;
 
-	MLOGD("g_header_pkg.size = %d\n", g_header_pkg.size);
-	MLOGD("idx = %d\n", idx);
-
-	for(int i = 0;i<idx;i++)
-	{
-		if(i%8 == 0)
-			printf("\n");
-		printf("buf[%d]=%d ",i,buf[i]);
-	}
-	printf("\n");
-
 	return HI_ERR_SUCCESS;
 }
 
@@ -241,8 +221,6 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	/*decrypt data frist, two bytes is len*/
 	idx = idx + payload.encry_devid_len + 2;
 	payload.data_len = buf[idx] + (buf[idx+1] << 8);
-	MLOGD("payload.data_len = %d\n ", payload.data_len );
-	MLOGD("idx = %d\n ", idx);
 	(hi_void) memset_s(decrypt_data, sizeof(decrypt_data), 0, sizeof(decrypt_data));
 	cipher_payload_data = hi_malloc(HI_MOD_ID_APP_COMMON, payload.data_len); 
 	if(!cipher_payload_data) {
@@ -297,7 +275,6 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 		MLOGE("base64 encode has failed! ret: %d\n", ret);
 		return HI_ERR_FAILURE;
 	}
-	MLOGD("hash_base64: %s\n ", hash_base64);
 
 	/*compare signature with calc result*/
 	if(memcmp(signature, hash_base64, strlen(signature))) {
@@ -407,7 +384,7 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 
 	pJson = cJSON_Print(root);
 	MLOGD("Json:\r\n %s \r\nlen = %d\n", pJson, strlen((char*)pJson));
-	MLOGD("random: [%s]\n author = [%s]\n signature = [%s]\n", random, author, signature);
+	MLOGD("\r\n author: [%s]\r\n signature: [%s]\r\n", author, signature);
 	cJSON_Delete(root);
 	return HI_ERR_SUCCESS;
 }
