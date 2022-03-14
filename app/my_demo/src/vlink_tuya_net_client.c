@@ -59,7 +59,7 @@ static hi_u32 client_state_machine_check_idle(hi_void);
 static hi_u32 tuya_client_show_msg();
 static void client_state_machine_set_wait(hi_s32 sfd);
 static hi_void client_link_release();
-static hi_u32 creat_tuya_client_task(hi_void);
+static hi_u32 create_tuya_client_task(hi_void);
 static hi_void server_tcp_accept(hi_void);
 static hi_void server_state_machine_check_close(hi_void);
 static hi_u32 tuya_server_info_process();
@@ -103,7 +103,7 @@ hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)
 	client_state_machine_set_wait(sfd);
 
 	/*process rec or send data*/
-    if (creat_tuya_client_task() != HI_ERR_SUCCESS) {
+    if (create_tuya_client_task() != HI_ERR_SUCCESS) {
         hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
         client_link_release();
         hi_mux_post(g_ip_mux_id);
@@ -152,7 +152,7 @@ hi_u32 start_tuya_tcp_server(hi_u16 local_port)
         return HI_ERR_FAILURE;
     }
 
-    if (creat_tuya_client_task() != HI_ERR_SUCCESS) {
+    if (create_tuya_client_task() != HI_ERR_SUCCESS) {
         printf("{ip_tcp_server_start:ip_creat_ip_task fail}\r\n");
         closesocket(g_server_link.sfd);
         g_server_link.sfd = -1;
@@ -232,7 +232,7 @@ failure:
 }
 
 
-static hi_u32 creat_tuya_client_task(hi_void)
+static hi_u32 create_tuya_client_task(hi_void)
 {
 	hi_u32 ret;
 
@@ -246,7 +246,7 @@ static hi_u32 creat_tuya_client_task(hi_void)
 		printf("Falied to create tuya_heartbeat_task task!\n");
 		return ret;
 	}
-	printf("[%s %d]creat_tuya_client_task is ok\r\n",__FUNCTION__,__LINE__);
+	printf("[%s %d]create_tuya_client_task is ok\r\n",__FUNCTION__,__LINE__);
     return HI_ERR_SUCCESS;
 }
 
@@ -323,7 +323,7 @@ static hi_u32 tuya_server_info_process()
 
 	/*
 		send packet to tuya server
-		0: author request 
+		0: author request
 		1: heartbeat request
 		2: wake up
 	*/

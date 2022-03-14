@@ -112,6 +112,7 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 
 	/*step4: get the payload data of authorization string with utc and random*/
 	(hi_void)cipher_get_random_bytes(g_payload_pkg.data.random, PAYLOAD_DATA_RANDOM_LEN);
+	(hi_void) memset_s(g_payload_pkg.data.authorization, sizeof(g_payload_pkg.data.authorization), 0, sizeof(g_payload_pkg.data.authorization));
 	strcat(g_payload_pkg.data.authorization, "time=");
 	utime = hi_get_real_time();
 	(hi_void) memset_s(g_utc_time, sizeof(g_utc_time), 0, sizeof(g_utc_time));
@@ -121,6 +122,7 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 	strcat(g_payload_pkg.data.authorization, g_payload_pkg.data.random);
 
 	/*step5: get the signature row data*/
+	(hi_void) memset_s(g_payload_pkg.data.row_signature, sizeof(g_payload_pkg.data.row_signature), 0, sizeof(g_payload_pkg.data.row_signature));
 	strcat(g_payload_pkg.data.row_signature, g_payload_pkg.encry_devid);
 	strcat(g_payload_pkg.data.row_signature, g_utc_time);
 	strcat(g_payload_pkg.data.row_signature, g_payload_pkg.data.random);
@@ -130,6 +132,7 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 
 	/*step6: calc payload g_signature encrypy*/
 	(hi_void) memset_s(hash_sha256, sizeof(hash_sha256), 0, sizeof(hash_sha256));
+	(hi_void) memset_s(g_payload_pkg.data.encry_signature, sizeof(g_payload_pkg.data.encry_signature), 0, sizeof(g_payload_pkg.data.encry_signature));
 	ret = hmac_sha256_encrypt(g_payload_pkg.data.row_signature, hash_sha256);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("hmac_sha256_encrypt encode has failed! ret: 0x%x\n", ret);
@@ -250,8 +253,8 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 
 	/*parse payload data*/
 	(hi_void) memset_s(signature, sizeof(signature), 0, sizeof(signature));
-	(hi_void) memset_s(signature, sizeof(signature), 0, sizeof(signature));
-	(hi_void) memset_s(signature, sizeof(author), 0, sizeof(author));
+	(hi_void) memset_s(rand_str, sizeof(rand_str), 0, sizeof(rand_str));
+	(hi_void) memset_s(author, sizeof(author), 0, sizeof(author));
 	ret = tuya_parse_payload_data(decrypt_data, rand_str, author, signature);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("tuya_parse_payload_data has failed! ret: %d\n", ret);
@@ -269,6 +272,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	strncpy(rand_str, author + strlen(g_utc_time) + 5 + 7, 32);
 
 	/*generate the "devid:time:random" pattern*/
+	(hi_void) memset_s(calc_sign, sizeof(calc_sign), 0, sizeof(calc_sign));
 	strcat(calc_sign, payload.encry_devid);
 	strcat(calc_sign, utc_str);
 	strcat(calc_sign, rand_str);

@@ -827,8 +827,8 @@ static hi_s32 vlink_hi_channel_get_utc(char *buf)
 {
 	char utc_time[64];
 	cJSON* item;
-	cJSON* root = cJSON_Parse(&buf[3]); 
 	hi_u64 utime;
+	cJSON* root = cJSON_Parse(&buf[3]);
 
 	if(NULL == root) {
 		MLOGE("-:parseJson---Parse fail\n");
@@ -879,7 +879,7 @@ unsigned int hi_channel_rx_callback(char *buf, int length)
 		hi_gpio_set_output_val(HI_GPIO_IDX_2, HI_GPIO_VALUE1);
 		return HI_ERR_SUCCESS;
 	}
-#if 1
+
 	MLOGD("======buf[%02X][%02X][%02X]===len[%d]=====\n", buf[0], buf[1], buf[2], length);
 
 	switch(buf[0])
@@ -973,97 +973,7 @@ unsigned int hi_channel_rx_callback(char *buf, int length)
 
 	}
 	return HI_ERR_SUCCESS;
-#else
 
-	MLOGD("====len1:[%d]==len2:[%d]====\n", strlen(buf), length);
-
-	cJSON* root = cJSON_Parse(buf); 
-	if(NULL == root)                                                                                         
-	{
-		MLOGE(":parseJson---Parse fail\n");
-		return HI_ERR_FAILURE;
-	}
-
-	item = cJSON_GetObjectItem(root, "cmd");
-	if(NULL != item)
-	{
-		hi_u8 cmdval = atoi(item->valuestring);
-		MLOGD(":parseJson---Parse----[%d]-----\n", cmdval);
-		switch(cmdval)
-		{
-			case 1:
-				vlink_get_ssid_pwd_from_camera(buf, length);
-			break;
-			case 2:
-				vlink_hi_channel_get_mac();
-			break;
-			case 3:
-				vlink_hi_channel_get_ip();
-			break;
-			case 4:
-			{
-				item = cJSON_GetObjectItem(root, "device");
-				if((NULL != item) && (NULL != item->valuestring) && (0 != strlen(item->valuestring)))
-				{
-					vlink_hi_channel_set_device_filter(item->valuestring);
-				}
-			}
-			break;
-			case 5:
-			{
-				hi_char serverip[20] = {0};
-				hi_char port[20] = {0};
-				hi_u32 expire =0;
-				item = cJSON_GetObjectItem(root, "ip");
-				if((NULL != item) && (NULL != item->valuestring) && (0 != strlen(item->valuestring)))
-				{
-					memcpy(serverip, item->valuestring, strlen(item->valuestring));
-				}
-				item = cJSON_GetObjectItem(root, "port");
-				if((NULL != item) && (NULL != item->valuestring) && (0 != strlen(item->valuestring)))
-				{
-					memcpy(port, item->valuestring, strlen(item->valuestring));
-				}
-				item = cJSON_GetObjectItem(root, "expire");
-				if((NULL != item) && (NULL != item->valuestring) && (0 != strlen(item->valuestring)))
-				{
-					expire = atoi(item->valuestring);
-				}
-				vlink_localserver_start_keeplive(serverip, port, expire);
-			}
-
-			break;
-			case 6:
-
-			break;
-			case 7:
-				vlink_wifi_deep_sleep();
-			break;
-			case 8:
-				vlink_start_softap_task();
-			break;
-			case 9:
-				vlink_start_startota_task();
-			break;
-			case 10:
-				//vlink_start_fota_proc_ota_data(buf);
-			break;
-
-
-			default: //
-
-			break;
-		}
-
-	} else {
-		MLOGE(":parseJson-cmd--Parse fail\n");
-		cJSON_Delete(root);
-		return HI_ERR_FAILURE;
-	}	
-
-	cJSON_Delete(root);
-	return HI_ERR_SUCCESS;
-#endif
 }
 
 static hi_void app_demo_netif_ext_callback(struct netif *netif, netif_nsc_reason_t reason,
