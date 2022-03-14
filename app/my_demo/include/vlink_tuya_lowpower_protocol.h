@@ -53,11 +53,14 @@ typedef enum {
 } TUYA_LINK_VERSION;
 
 
+hi_u32 tuya_send_heart_beat_packet(hi_uchar *buf);
+hi_u32 tuya_recevie_wake_up_packet(hi_uchar *buf);
+hi_u32 tuya_receive_heart_beat_packet(hi_uchar *buf);
 
 hi_u32 hmac_sha256_encrypt(hi_uchar *src, hi_uchar *hash);
 hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u32 src_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content);
 hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content, hi_u32 des_len);
-hi_u32 tuya_send_authention_request(hi_uchar *buf);
+hi_s32 tuya_send_authention_request(hi_uchar *buf);
 hi_u32 tuya_recevie_authention_response(hi_uchar *buf);
 void pkcs7_padding(hi_char * buf, int buflen, int blocksize, hi_char * paddingBuf);
 

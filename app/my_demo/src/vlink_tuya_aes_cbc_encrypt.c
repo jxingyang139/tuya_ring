@@ -80,7 +80,7 @@ static int aes_buf_phy_addr_align(const unsigned char *input,
 }
 
 
-hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content, hi_u32 des_len)
+hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 src_len, hi_u8 *key, hi_u8 *iv, hi_uchar *des_content, hi_u32 des_len)
 {
 	hi_u32 ret;
 	hi_u32 cs;
@@ -111,7 +111,7 @@ hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8
 		MLOGE("malloc failure !\n");
 		goto fail;
 	}
-	(hi_void)pkcs7_padding(sr_content, sr_len, 16, padding_buf);
+	(hi_void)pkcs7_padding(sr_content, src_len, 16, padding_buf);
 
 	ret = hi_cipher_aes_config(&aes_ctrl);
 	if (ret != HI_ERR_SUCCESS) {
@@ -124,6 +124,9 @@ hi_u32 aes128_cbc_encrypt(hi_uchar *sr_content, hi_u32 sr_len, hi_u8 *key, hi_u8
 		MLOGE("hi_cipher_aes_crypto failed!\n");
 		goto crypto_fail;
 	}
+
+	MLOGD("src_content len =%d src_content addr = 0x%x\n",src_len, sr_content);
+	MLOGD("des_content len =%d des_content addr = 0x%x\n",des_len, des_content);
 
 	(hi_void) hi_cipher_aes_destroy_config();
 	hi_free(HI_MOD_ID_APP_COMMON, padding_buf);
@@ -165,8 +168,8 @@ hi_u32 aes128_cbc_decrypt(hi_uchar *sr_content, hi_u32 src_len, hi_u8 *key, hi_u
 		goto crypto_fail;
 	}
 
-	printf("src_len =%d sr_content=0x%x, des_content=0x%x\n",src_len, sr_content, des_content);
-	printf("strlen(sr_content)=%d, strlen(des_content)=%d\n", strlen(sr_content), strlen(des_content));
+	MLOGD("src_content len =%d src_content addr = 0x%x\n",src_len, sr_content);
+	MLOGD("des_content len =%d des_content addr = 0x%x\n",src_len, des_content);
 	
 	ret = hi_cipher_aes_crypto((uintptr_t)sr_content, (uintptr_t)des_content, src_len, HI_FALSE);
 	if (ret != HI_ERR_SUCCESS) {

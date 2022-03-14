@@ -18,6 +18,7 @@ for tuya low power wake up ways
 #include "vlink_tuya_net_client.h"
 #include <hi_cipher.h>
 #include "vlink_hichannel_util.h"
+#include "vlink_tuya_lowpower_protocol.h"
 
 
 #ifndef CONFIG_FACTORY_TEST_MODE
@@ -34,6 +35,7 @@ for tuya low power wake up ways
 #include "hi_config.h"
 #include "sal_common.h"
 #include "cJSON.h"
+#include "vlink_tuya_net_client.h"
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -48,6 +50,7 @@ static link_server_stru g_server_link;
 static hi_s8 g_task_on;
 static hi_u32 g_ip_mux_id;
 hi_u32 g_tuya_heartbeat_task_id = 0;
+hi_u32 g_author_status = 0;
 
 
 static hi_void link_monitor_socket(fd_set *read_set, hi_s32 *sfd_max);
@@ -59,6 +62,7 @@ static hi_void client_link_release();
 static hi_u32 creat_tuya_client_task(hi_void);
 static hi_void server_tcp_accept(hi_void);
 static hi_void server_state_machine_check_close(hi_void);
+static hi_u32 tuya_server_info_process();
 
 
 /*3861 is client, connect tuya server*/
@@ -165,26 +169,24 @@ hi_u32 start_tuya_tcp_server(hi_u16 local_port)
 static hi_void *tuya_heartbeat_task(hi_void *param)
 {
 	int i;
-    hi_s32 sfd_max;
-    fd_set read_set;
-    struct timeval time_val;
-    hi_s32 ret;
+	hi_s32 sfd_max;
+	fd_set read_set;
+	struct timeval time_val;
+	hi_s32 ret;
 
 	hi_unref_param(param);
 	printf("Create the tuya_heartbeat_task \r\n");
 
-    hi_mux_create(&g_ip_mux_id);
-    g_task_on = 0;
-    while (!g_task_on) {
+	hi_mux_create(&g_ip_mux_id);
+	g_task_on = 0;
+	while (!g_task_on) {
 
 		hi_cpup_load_check_proc(hi_task_get_current_id(), LOAD_SLEEP_TIME_DEFAULT);
-
-        /* When all links are in the idle state, exit. */
-        if (client_state_machine_check_idle() == HI_ERR_SUCCESS) {
-            hi_mux_delete(g_ip_mux_id);
-            g_task_on = 1;
-            continue;
-        }
+		if (client_state_machine_check_idle() == HI_ERR_SUCCESS) {
+			hi_mux_delete(g_ip_mux_id);
+			g_task_on = 1;
+			continue;
+		}
 
 		/*check the client fd need close or not*/
         client_state_machine_check_close();
@@ -195,33 +197,30 @@ static hi_void *tuya_heartbeat_task(hi_void *param)
 		FD_ZERO(&read_set);
 
 		/*add the socket to the fd set*/
-        link_monitor_socket(&read_set, &sfd_max);
-        time_val.tv_sec = 0;
-        time_val.tv_usec = 500000;
-        ret = lwip_select(sfd_max + 1, &read_set, 0, 0, &time_val);
+		link_monitor_socket(&read_set, &sfd_max);
+		time_val.tv_sec = 0;
+		time_val.tv_usec = 500000;
+		ret = lwip_select(sfd_max + 1, &read_set, 0, 0, &time_val);
 		if(ret > 0)
 		{
 			hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
-			/*for tuya heartbeat tcp task*/
-			if ((g_client_link.stats == LINK_STATE_WAIT) && 
-				(FD_ISSET(g_client_link.sfd, &read_set))) {
-				tuya_client_show_msg();
-			} else if((g_server_link.stats == LINK_STATE_SERVER_LISTEN) && 
-						(FD_ISSET(g_server_link.sfd, &read_set))) {
-				server_tcp_accept();
-			} else {
-				;
+			if ((g_client_link.stats == LINK_STATE_WAIT) && (FD_ISSET(g_client_link.sfd, &read_set))) {
+				if(tuya_server_info_process()!=HI_ERR_SUCCESS) {
+					hi_mux_post(g_ip_mux_id);
+					MLOGE("sync with server has fail, retry!\r\n");
+					continue;
+				}
 			}
 			hi_mux_post(g_ip_mux_id);
 		}
-        else if (ret < 0) {
-			printf("[%s %d]lwip_select monitor fail!!\r\n",__FUNCTION__, __LINE__);
-            goto failure;
-        } else {
-            continue;
-        }
-    }
-    g_tuya_heartbeat_task_id = -1;
+		else if (ret < 0) {
+			MLOGE("lwip_select monitor fail!!\r\n");
+			goto failure;
+		} else {
+			continue;
+		}
+	}
+	g_tuya_heartbeat_task_id = -1;
 
 failure:
 	if (g_client_link.stats != LINK_STATE_IDLE) {
@@ -308,31 +307,116 @@ static hi_u32 tuya_client_show_msg()
 
 
 
+static hi_u32 tuya_server_info_process()
+{
+	hi_s32 ret;
+	struct sockaddr_in cln_addr = {0};
+	socklen_t cln_addr_len = (socklen_t)sizeof(cln_addr);
+	hi_u32 print_len = 0;
+	hi_u32 ip_buffer_size;
+	hi_char *ip_buffer = (hi_char*)malloc(IP_RESV_BUF_LEN);
+	if (ip_buffer == HI_NULL) {
+		printf("{ip_ip_resv_output:ip buffer malloc fail}\r\n");
+		return HI_ERR_FAILURE;
+	}
+	memset_s(ip_buffer, IP_RESV_BUF_LEN , 0, IP_RESV_BUF_LEN);
+
+	/*
+		send packet to tuya server
+		0: author request 
+		1: heartbeat request
+		2: wake up
+	*/
+	switch(g_author_status)
+	{
+		case 0:
+			ip_buffer_size = tuya_send_authention_request(ip_buffer);
+		break;
+		case 1:
+			ip_buffer_size = tuya_send_heart_beat_packet(ip_buffer);
+		break;
+		case 2:
+			MLOGD("wake up the host, stop the heartbeat packets!\n");
+			free(ip_buffer);
+			return HI_ERR_SUCCESS;
+		break;
+	}
+	ret = sendto(g_client_link.sfd, ip_buffer, ip_buffer_size, 0, (struct sockaddr *)&cln_addr, (socklen_t)sizeof(cln_addr));
+	if(ret < 0) {
+		free(ip_buffer);
+		MLOGD("send message to server faild!\n");
+		return HI_ERR_FAILURE;
+	}
+
+	ret = recvfrom(g_client_link.sfd, ip_buffer, IP_RESV_BUF_LEN, 0, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
+	if (ret < 0) {
+		if ((errno != EINTR) && (errno != EAGAIN)) {
+			g_client_link.stats = LINK_STATE_ERR_CLOSE;
+		}
+		free(ip_buffer);
+		return HI_ERR_FAILURE;
+	} else if (ret == 0) {
+		g_client_link.stats = LINK_STATE_ERR_CLOSE;
+		free(ip_buffer);
+		return HI_ERR_FAILURE;
+	}
+
+	/*recevie buffer process*/
+	memset_s(ip_buffer, IP_RESV_BUF_LEN , 0, IP_RESV_BUF_LEN);
+	switch(ip_buffer[1])
+	{
+		case LP_TYPE_AUTH_RESPONSE:
+			if(tuya_recevie_authention_response(ip_buffer) == HI_ERR_SUCCESS) {
+				g_author_status = 1;
+			}
+		break;
+		case LP_TYPE_HEARTBEAT:
+			if(tuya_receive_heart_beat_packet(ip_buffer) != HI_ERR_SUCCESS)
+				g_author_status = 0;
+			else
+				g_author_status = 0;
+		break;
+		case LP_TYPE_WAKEUP:
+			if(tuya_recevie_wake_up_packet(ip_buffer) != HI_ERR_SUCCESS)
+				g_author_status = 2;
+			else
+				g_author_status = 0;
+		break;
+		default:
+			g_author_status = 0;
+			MLOGD("unknow packet from server!\n");
+		break;
+	}
+	free(ip_buffer);
+	return HI_ERR_SUCCESS;
+}
+
+
 static hi_void server_tcp_accept(hi_void)
 {
-    struct sockaddr_in cln_addr = {0};
-    socklen_t cln_addr_len = (socklen_t)sizeof(cln_addr);
-    hi_s32 resv_fd;
-    hi_s8 link_id = -1;
-    hi_s32 ret;
-    hi_u32 send_len;
+	struct sockaddr_in cln_addr = {0};
+	socklen_t cln_addr_len = (socklen_t)sizeof(cln_addr);
+	hi_s32 resv_fd;
+	hi_s8 link_id = -1;
+	hi_s32 ret;
+	hi_u32 send_len;
 	hi_char *send_msg = "huawei";
-    send_len = strlen(send_msg);
+	send_len = strlen(send_msg);
 
-    resv_fd = accept(g_server_link.sfd, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
-    if (resv_fd < 0) {
-        printf("{accept failed, return is %d}\r\n", resv_fd);
-        return;
-    }
+	resv_fd = accept(g_server_link.sfd, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
+	if (resv_fd < 0) {
+		printf("{accept failed, return is %d}\r\n", resv_fd);
+		return;
+	}
 
-    ret = send(g_server_link.sfd, send_msg, send_len, 0);
-    if (ret <= 0) {
-        printf("ERROR\r\n");
-        return;
-    }
-    printf("SEND %d bytes\r\nOK\r\n", ret);
+	ret = send(g_server_link.sfd, send_msg, send_len, 0);
+	if (ret <= 0) {
+		printf("ERROR\r\n");
+		return;
+	}
+	printf("SEND %d bytes\r\nOK\r\n", ret);
 
-    return;
+	return;
 }
 
 
@@ -340,41 +424,39 @@ static hi_void server_tcp_accept(hi_void)
 /*add the tuya heartbeat tcp task in fd set*/
 static hi_void link_monitor_socket(fd_set *read_set, hi_s32 *sfd_max)
 {
-    hi_s32 sfd_max_inter = 0;
-    hi_u8 i;
-    hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
-    if (g_client_link.stats == LINK_STATE_WAIT) {
-        FD_SET(g_client_link.sfd, read_set);
-        if (g_client_link.sfd > sfd_max_inter) {
-            sfd_max_inter = g_client_link.sfd;
-        }
-    }
+	hi_s32 sfd_max_inter = 0;
+	hi_u8 i;
 
-    if (g_server_link.stats == LINK_STATE_SERVER_LISTEN) {
-        FD_SET(g_server_link.sfd, read_set);
-        if (g_server_link.sfd > sfd_max_inter) {
-            sfd_max_inter = g_server_link.sfd;
-        }
-    }
-
-    *sfd_max = sfd_max_inter;
-    hi_mux_post(g_ip_mux_id);
-
-    return;
+	hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
+	if (g_client_link.stats == LINK_STATE_WAIT) {
+		FD_SET(g_client_link.sfd, read_set);
+		if (g_client_link.sfd > sfd_max_inter) {
+			sfd_max_inter = g_client_link.sfd;
+		}
+	}
+	if (g_server_link.stats == LINK_STATE_SERVER_LISTEN) {
+		FD_SET(g_server_link.sfd, read_set);
+		if (g_server_link.sfd > sfd_max_inter) {
+			sfd_max_inter = g_server_link.sfd;
+		}
+	}
+	*sfd_max = sfd_max_inter;
+	hi_mux_post(g_ip_mux_id);
+	return;
 }
 
 static hi_u32 client_state_machine_check_idle(hi_void)
 {
-    int i;
-    hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
+	int i;
+	hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
 
-    if (g_client_link.stats != LINK_STATE_IDLE) {
-        hi_mux_post(g_ip_mux_id);
-        return HI_ERR_FAILURE;
-    }
+	if (g_client_link.stats != LINK_STATE_IDLE) {
+		hi_mux_post(g_ip_mux_id);
+		return HI_ERR_FAILURE;
+	}
 
-    hi_mux_post(g_ip_mux_id);
-    return HI_ERR_SUCCESS;
+	hi_mux_post(g_ip_mux_id);
+	return HI_ERR_SUCCESS;
 }
 
 
@@ -407,27 +489,27 @@ static hi_void server_state_machine_check_close(hi_void)
 
 static void client_state_machine_set_wait(hi_s32 sfd)
 {
-    hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
-    g_client_link.sfd = sfd;
-    g_client_link.stats = LINK_STATE_WAIT;
-    g_client_link.mode = LINK_MODE_MANUAL;
-    g_client_link.protocol = IP_TCP;
-    hi_mux_post(g_ip_mux_id);
+	hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
+	g_client_link.sfd = sfd;
+	g_client_link.stats = LINK_STATE_WAIT;
+	g_client_link.mode = LINK_MODE_MANUAL;
+	g_client_link.protocol = IP_TCP;
+	hi_mux_post(g_ip_mux_id);
 }
 
 
 static hi_void client_link_release()
 {
-    closesocket(g_client_link.sfd);
-    g_client_link.sfd = -1;
-    g_client_link.stats = LINK_STATE_IDLE;
-    g_client_link.mode = LINK_MODE_INIT;
-    g_client_link.protocol = IP_NULL;
+	closesocket(g_client_link.sfd);
+	g_client_link.sfd = -1;
+	g_client_link.stats = LINK_STATE_IDLE;
+	g_client_link.mode = LINK_MODE_INIT;
+	g_client_link.protocol = IP_NULL;
 }
 
 
 #ifdef __cplusplus
 #if __cplusplus
-    }
+	}
 #endif
 #endif

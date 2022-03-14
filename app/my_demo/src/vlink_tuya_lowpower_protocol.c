@@ -60,7 +60,7 @@ hi_bool cipher_get_random_bytes(hi_uchar *str, hi_u8 len);
 
 
 /*authentication data packet*/
-hi_u32 tuya_send_authention_request(hi_uchar *buf)
+hi_s32 tuya_send_authention_request(hi_uchar *buf)
 {
     size_t len;
 	hi_u32 ret;
@@ -70,6 +70,7 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	hi_uchar hash_sha256[HASH_SHA256_LEN];
 	link_packets_header g_header_pkg;
 	hi_u32 aes_out_len;
+	hi_u32 buf_size;
 
 	/*step1: generate iv random size*/
 	g_payload_pkg.data.type = 1;
@@ -91,13 +92,13 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	ret = aes128_cbc_encrypt(g_payload_pkg.row_devid, g_payload_pkg.row_devid_len, fixed_key, fixed_iv, aes_devid, aes_out_len);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("aes128_cbc_encrypt encode has failed! ret: %d\n", ret);
-		return HI_ERR_FAILURE;
+		return -1;
 	}
 	(hi_void) memset_s(g_payload_pkg.encry_devid, sizeof(g_payload_pkg.encry_devid), 0, sizeof(g_payload_pkg.encry_devid));
 	ret = mbedtls_base64_encode(g_payload_pkg.encry_devid, sizeof(g_payload_pkg.encry_devid), &len, aes_devid, aes_out_len);
     if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("base64 encode has failed! ret: %d\n", ret);
-		return HI_ERR_FAILURE;
+		return -1;
 	}
 	g_payload_pkg.encry_devid_len = strlen((size_t)g_payload_pkg.encry_devid);
 	MLOGE("g_payload_pkg.iv_len = %d\n", g_payload_pkg.iv_len);
@@ -126,13 +127,13 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	ret = hmac_sha256_encrypt(g_payload_pkg.data.row_signature, hash_sha256);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("hmac_sha256_encrypt encode has failed! ret: 0x%x\n", ret);
-		return HI_ERR_FAILURE;
+		return -1;
 	}
 	ret = mbedtls_base64_encode(g_payload_pkg.data.encry_signature, sizeof(g_payload_pkg.data.encry_signature),
 								&len, hash_sha256, HASH_SHA256_LEN);
 	if( ret != 0 ) {
 		MLOGE("base64 encode has failed! ret: %d\n", ret);
-		return HI_ERR_FAILURE;
+		return -1;
 	}
 
 	/*step7: get the row payload data buffer*/
@@ -145,7 +146,7 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	ret = aes128_cbc_encrypt(data_buffer, len, g_local_key, g_payload_pkg.iv, data_encry_buffer, aes_out_len);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("aes128_cbc_encrypt encode has failed! ret: %d\n", ret);
-		return HI_ERR_FAILURE;
+		return -1;
 	}
 	g_payload_pkg.data_len = aes_out_len;
 	MLOGD("hash_sha256 len = %d\n ", strlen(hash_sha256));
@@ -157,7 +158,8 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	g_header_pkg.version = 1;
 	g_header_pkg.type = LP_TYPE_AUTH_REQUEST;
 	g_header_pkg.flag = 1;
-	g_header_pkg.size = 6 + g_payload_pkg.iv_len + g_payload_pkg.encry_devid_len + g_payload_pkg.data_len;
+	g_header_pkg.size = 2 + 6 + g_payload_pkg.iv_len + g_payload_pkg.encry_devid_len + g_payload_pkg.data_len;
+	buf_size = g_header_pkg.size + 3;
 
 	/*step10: header data stored the ram for crypto*/
 	hi_u32 idx = 0;
@@ -186,7 +188,9 @@ hi_u32 tuya_send_authention_request(hi_uchar *buf)
 	memcpy_s(&buf[idx], g_payload_pkg.data_len, data_encry_buffer, g_payload_pkg.data_len);
 	idx += g_payload_pkg.data_len;
 
-	return HI_ERR_SUCCESS;
+	return buf_size;
+
+
 }
 
 
@@ -194,7 +198,6 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 {
 	size_t len;
 	hi_u32 ret;
-
 	hi_u32 idx;
 	hi_uchar *cipher_payload_data;
 	hi_uchar decrypt_data[512];
@@ -222,7 +225,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	idx = idx + payload.encry_devid_len + 2;
 	payload.data_len = buf[idx] + (buf[idx+1] << 8);
 	(hi_void) memset_s(decrypt_data, sizeof(decrypt_data), 0, sizeof(decrypt_data));
-	cipher_payload_data = hi_malloc(HI_MOD_ID_APP_COMMON, payload.data_len); 
+	cipher_payload_data = hi_malloc(HI_MOD_ID_APP_COMMON, payload.data_len);
 	if(!cipher_payload_data) {
 		MLOGD("hi_malloc error!");
 		return HI_ERR_FAILURE;
@@ -235,12 +238,14 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 		return HI_ERR_FAILURE;
 	}
 	hi_free(HI_MOD_ID_APP_COMMON, cipher_payload_data);
-
 	MLOGD("payload iv_len = %d\n ", payload.iv_len);
 	MLOGD("payload encry_devid_len = %d\n ", payload.encry_devid_len);
 	MLOGD("payload data_len = %d\n ", payload.data_len);
 
 	/*parse payload data*/
+	(hi_void) memset_s(signature, sizeof(signature), 0, sizeof(signature));
+	(hi_void) memset_s(signature, sizeof(signature), 0, sizeof(signature));
+	(hi_void) memset_s(signature, sizeof(author), 0, sizeof(author));
 	ret = tuya_parse_payload_data(decrypt_data, rand_str, author, signature);
 	if( ret != HI_ERR_SUCCESS ) {
 		MLOGE("tuya_parse_payload_data has failed! ret: %d\n", ret);
@@ -248,11 +253,10 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	}
 
 	/*compare payload data's random string*/
-	/*if(!memcmp(g_payload_pkg.data.random, rand_str, strlen(rand_str))) {
+	if(memcmp(g_payload_pkg.data.random, rand_str, strlen(rand_str))) {
 		MLOGE("random string compare fail! random = %s g_rand_str =%s\n", g_payload_pkg.data.random, rand_str);
 		return HI_ERR_FAILURE;
 	}
-	*/
 
 	/*extra the utc time and random strign in authorzation string*/
 	strncpy(utc_str, author + 5, strlen(g_utc_time));
@@ -278,7 +282,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 
 	/*compare signature with calc result*/
 	if(memcmp(signature, hash_base64, strlen(signature))) {
-		MLOGE("signature failed! hash_base64: %s hash_base64: %s\n", hash_base64, signature);
+		MLOGE("signature failed!\r\nsignature: %s\r\nhash_base64: %s\r\n", hash_base64, signature);
 		return HI_ERR_FAILURE;
 	}
 
@@ -365,7 +369,7 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 	*/
 
 	item = cJSON_GetObjectItem(root, "authorization");
-	if((item != NULL)){//&& (item->valuestring) && (0 != strlen(item->valuestring)) && ((HI_WIFI_MAX_SSID_LEN + 1) > strlen(item->valuestring))) {
+	if((item != NULL)&& (item->valuestring) && (0 != strlen(item->valuestring))){// && ((HI_WIFI_MAX_SSID_LEN + 1) > strlen(item->valuestring))) {
 		memcpy_s(author, strlen(item->valuestring), item->valuestring, strlen(item->valuestring));
 	} else {
 		MLOGE(":parseJson-authorization--Parse fail\n");
@@ -374,7 +378,7 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 	}
 
 	item = cJSON_GetObjectItem(root, "signature");
-	if((item != NULL)){//&& (item->valuestring) && (0 != strlen(item->valuestring)) && ((HI_WIFI_MAX_SSID_LEN + 1) > strlen(item->valuestring))) {
+	if((item != NULL)&& (item->valuestring) && (0 != strlen(item->valuestring))) {// && ((HI_WIFI_MAX_SSID_LEN + 1) > strlen(item->valuestring))) {
 		memcpy_s(signature, strlen(item->valuestring), item->valuestring, strlen(item->valuestring));
 	} else {
 		MLOGE(":parseJson-signature--Parse fail\n");
@@ -384,21 +388,37 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 
 	pJson = cJSON_Print(root);
 	MLOGD("Json:\r\n %s \r\nlen = %d\n", pJson, strlen((char*)pJson));
-	MLOGD("\r\n author: [%s]\r\n signature: [%s]\r\n", author, signature);
+	MLOGD("random: %s\n", random);
+	MLOGD("author: %s\n", author);
+	MLOGD("signature: %s\n", signature);
 	cJSON_Delete(root);
 	return HI_ERR_SUCCESS;
 }
 
 
-hi_u8 *tuya_get_heart_beat_packet()
+hi_u32 tuya_send_heart_beat_packet(hi_uchar *buf)
 {
-	return heartbeat_packet;
+	memcpy_s(buf, sizeof(heartbeat_packet), heartbeat_packet, sizeof(heartbeat_packet));
+	return sizeof(heartbeat_packet);
 }
 
 
-hi_u8 *tuya_get_wake_up_packet()
+hi_u32 tuya_receive_heart_beat_packet(hi_uchar *buf)
 {
-	return wakeup_packet;
+	if(memcmp(buf, heartbeat_packet, strlen(heartbeat_packet))) {
+		MLOGE("heart_beat compare fail!");
+		return HI_ERR_FAILURE;
+	}
+	return HI_ERR_SUCCESS;
+}
+
+hi_u32 tuya_recevie_wake_up_packet(hi_uchar *buf)
+{
+	if(memcmp(buf, wakeup_packet, strlen(wakeup_packet))) {
+		MLOGE("wake up packet compare fail!");
+		return HI_ERR_FAILURE;
+	}
+	return HI_ERR_SUCCESS;
 }
 
 

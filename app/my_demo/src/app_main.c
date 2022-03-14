@@ -637,9 +637,8 @@ hi_void app_main(hi_void)
 #endif
 
 	hi_char buf_test[512];
-	tuya_send_authention_request(buf_test);
-	
-	printf("hilink init success!\n");
+	hi_s32 buffer_t_size;
+	buffer_t_size = tuya_send_authention_request(buf_test);
 	tuya_recevie_authention_response(buf_test);
 
 	hichannel_vlink_main();
