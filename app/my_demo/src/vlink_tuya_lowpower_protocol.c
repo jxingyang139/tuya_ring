@@ -28,7 +28,7 @@ extern "C" {
 #endif
 
 
-//FIXME
+//FIXME: local key need get from tuya_ipc_local_key_get API
 hi_uchar g_local_key[16] = {0x23, 0xac, 0x7b, 0x15, 0x0d, 0x89, 0x34,
 				 			0x92, 0xf1, 0x19, 0x33, 0xde, 0xc8, 0x6a,
 				 			0x10, 0x55};
@@ -104,11 +104,11 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 		return -1;
 	}
 	g_payload_pkg.encry_devid_len = strlen((size_t)g_payload_pkg.encry_devid);
-	MLOGE("g_payload_pkg.iv_len = %d\n", g_payload_pkg.iv_len);
-	MLOGE("g_payload_pkg.row_devid_len = %d\n", g_payload_pkg.row_devid_len);
-	MLOGE("aes_out_len = %d\n", aes_out_len);
-	MLOGE("g_payload_pkg.encry_devid = %s\n", g_payload_pkg.encry_devid);
-	MLOGE("g_payload_pkg.encry_devid_len = %d\n", g_payload_pkg.encry_devid_len);
+	MLOGD("g_payload_pkg.iv_len = %d\n", g_payload_pkg.iv_len);
+	MLOGD("g_payload_pkg.row_devid_len = %d\n", g_payload_pkg.row_devid_len);
+	MLOGD("aes_out_len = %d\n", aes_out_len);
+	MLOGD("g_payload_pkg.encry_devid = %s\n", g_payload_pkg.encry_devid);
+	MLOGD("g_payload_pkg.encry_devid_len = %d\n", g_payload_pkg.encry_devid_len);
 
 	/*step4: get the payload data of authorization string with utc and random*/
 	(hi_void)cipher_get_random_bytes(g_payload_pkg.data.random, PAYLOAD_DATA_RANDOM_LEN);
@@ -144,6 +144,8 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 		MLOGE("base64 encode has failed! ret: %d\n", ret);
 		return -1;
 	}
+	MLOGD("g_payload_pkg.data.row_signature = %s\n", g_payload_pkg.data.row_signature);
+	MLOGD("g_payload_pkg.data.encry_signature = %s\n", g_payload_pkg.data.encry_signature);
 
 	/*step7: get the row payload data buffer*/
 	(hi_void) memset_s(data_buffer, sizeof(data_buffer), 0, sizeof(data_buffer));
@@ -198,8 +200,6 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 	idx += g_payload_pkg.data_len;
 
 	return buf_size;
-
-
 }
 
 
@@ -228,17 +228,19 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	/*get devid data packets*/
 	idx = 7 + payload.iv_len;
 	payload.encry_devid_len = buf[idx] + (buf[idx + 1] << 8);
+	(hi_void) memset_s(payload.encry_devid, sizeof(payload.encry_devid), 0, sizeof(payload.encry_devid));
 	memcpy_s(payload.encry_devid, payload.encry_devid_len, &buf[idx + 2], payload.encry_devid_len);
 
 	/*decrypt data frist, two bytes is len*/
 	idx = idx + payload.encry_devid_len + 2;
 	payload.data_len = buf[idx] + (buf[idx+1] << 8);
 	(hi_void) memset_s(decrypt_data, sizeof(decrypt_data), 0, sizeof(decrypt_data));
-	cipher_payload_data = hi_malloc(HI_MOD_ID_APP_COMMON, payload.data_len);
+	cipher_payload_data = hi_malloc(HI_MOD_ID_APP_COMMON, payload.data_len + 1);
 	if(!cipher_payload_data) {
 		MLOGD("hi_malloc error!");
 		return HI_ERR_FAILURE;
 	}
+	memset_s(cipher_payload_data, sizeof(cipher_payload_data), 0, sizeof(cipher_payload_data));
 	memcpy_s(cipher_payload_data, payload.data_len, &buf[idx + 2], payload.data_len);
 	ret = aes128_cbc_decrypt(cipher_payload_data, payload.data_len, g_local_key, payload.iv, decrypt_data);
 	if( ret != HI_ERR_SUCCESS ) {
@@ -250,6 +252,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 	MLOGD("payload iv_len = %d\n ", payload.iv_len);
 	MLOGD("payload encry_devid_len = %d\n ", payload.encry_devid_len);
 	MLOGD("payload data_len = %d\n ", payload.data_len);
+	MLOGD("payload.encry_devid = %s\n ", payload.encry_devid);
 
 	/*parse payload data*/
 	(hi_void) memset_s(signature, sizeof(signature), 0, sizeof(signature));
@@ -269,13 +272,17 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 
 	/*extra the utc time and random strign in authorzation string*/
 	strncpy(utc_str, author + 5, strlen(g_utc_time));
-	strncpy(rand_str, author + strlen(g_utc_time) + 5 + 7, 32);
+	strncpy(rand_str, author + strlen(g_utc_time) + 5 + 8, 32);
 
 	/*generate the "devid:time:random" pattern*/
 	(hi_void) memset_s(calc_sign, sizeof(calc_sign), 0, sizeof(calc_sign));
 	strcat(calc_sign, payload.encry_devid);
 	strcat(calc_sign, utc_str);
 	strcat(calc_sign, rand_str);
+	MLOGD("calc_sign = %s\n ", calc_sign);
+	MLOGD("utc_str = %s\n ", utc_str);
+	MLOGD("rand_str = %s\n ", rand_str);
+	MLOGD("payload.encry_devid = %s\n ", payload.encry_devid);
 
 	/*data signature encrypt: 1.hmac sha256 2.base 64*/
 	(hi_void) memset_s(hash_sha256, sizeof(hash_sha256), 0, sizeof(hash_sha256));
@@ -292,7 +299,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 
 	/*compare signature with calc result*/
 	if(memcmp(signature, hash_base64, strlen(signature))) {
-		MLOGE("signature failed!\r\nsignature: %s\r\nhash_base64: %s\r\n", hash_base64, signature);
+		MLOGE("signature failed!\r\nhash_base64: %s\r\nsignature: %s\r\n", hash_base64, signature);
 		return HI_ERR_FAILURE;
 	}
 
@@ -345,6 +352,7 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 		return HI_ERR_FAILURE;
 	}
 
+	//FIXME: need remove    comments in release version
 	/*
 	item = cJSON_GetObjectItem(root, "err");
 	if(cJSON_IsString(item)) {
@@ -377,7 +385,6 @@ hi_u32 tuya_parse_payload_data(hi_uchar *rw_data, hi_uchar *random, hi_uchar *au
 		return HI_ERR_FAILURE;
 	}
 	*/
-
 	item = cJSON_GetObjectItem(root, "authorization");
 	if((item != NULL)&& (item->valuestring) && (0 != strlen(item->valuestring))){// && ((HI_WIFI_MAX_SSID_LEN + 1) > strlen(item->valuestring))) {
 		memcpy_s(author, strlen(item->valuestring), item->valuestring, strlen(item->valuestring));

@@ -63,6 +63,7 @@ static hi_u32 create_tuya_client_task(hi_void);
 static hi_void server_tcp_accept(hi_void);
 static hi_void server_state_machine_check_close(hi_void);
 static hi_u32 tuya_server_info_process();
+static hi_u32 tuya_client_info_process();
 
 
 /*3861 is client, connect tuya server*/
@@ -76,7 +77,7 @@ hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)
     /*create 3861 client*/
     hi_s32 sfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sfd == -1) {
-        printf("{[%s %d]: socket fail}\r\n",__FUNCTION__,__LINE__);
+        MLOGE("{socket fail}\r\n");
         return HI_ERR_FAILURE;
     }
 
@@ -84,7 +85,7 @@ hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)
     tos = 128; 
     ret = setsockopt(sfd, IPPROTO_IP, IP_TOS, &tos, sizeof(tos));
     if (ret) {
-        printf("{[%s %d]: setsockopt TOPS fail fail}\r\n",__FUNCTION__,__LINE__);
+        MLOGE("{setsockopt TOPS fail fail}\r\n");
         closesocket(sfd);
         return HI_ERR_FAILURE;
     }
@@ -94,7 +95,7 @@ hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)
     srv_addr.sin_port = htons(port);
     ret = connect(sfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));
     if (ret != 0) {
-		printf("{[%s %d]: connect fail} ret =%d\r\n",__FUNCTION__,__LINE__,ret);
+		MLOGE("{connect fail} ret =%d\r\n", ret);
         closesocket(sfd);
         return HI_ERR_FAILURE;
     }
@@ -107,11 +108,11 @@ hi_u32 start_tuya_tcp_client(const hi_char *ipaddr, hi_u16 port)
         hi_mux_pend(g_ip_mux_id, VLINK_WAIT_TIME);
         client_link_release();
         hi_mux_post(g_ip_mux_id);
-        printf("{start_tuya_tcpip_client: creat tuya task fail}\r\n");
+        MLOGE("{creat tuya task fail}\r\n");
         return HI_ERR_FAILURE;
     }
 
-	printf("{start_tuya_tcp_client: create link with server is ok!}\r\n", ret);
+	MLOGE("{create link with server is ok!}\r\n", ret);
     return HI_ERR_SUCCESS;
 }
 
@@ -173,14 +174,13 @@ static hi_void *tuya_heartbeat_task(hi_void *param)
 	fd_set read_set;
 	struct timeval time_val;
 	hi_s32 ret;
-
 	hi_unref_param(param);
-	printf("Create the tuya_heartbeat_task \r\n");
+	MLOGD("Enter the tuya_heartbeat_task!\r\n");
 
 	hi_mux_create(&g_ip_mux_id);
 	g_task_on = 0;
 	while (!g_task_on) {
-
+		/*state machine check*/
 		hi_cpup_load_check_proc(hi_task_get_current_id(), LOAD_SLEEP_TIME_DEFAULT);
 		if (client_state_machine_check_idle() == HI_ERR_SUCCESS) {
 			hi_mux_delete(g_ip_mux_id);
@@ -192,14 +192,19 @@ static hi_void *tuya_heartbeat_task(hi_void *param)
         client_state_machine_check_close();
 		server_state_machine_check_close();
 
-		/*select system call, for multi client*/
+		/*send msg to server*/
+		ret = tuya_client_info_process();
+		if(ret != HI_ERR_SUCCESS) {
+			MLOGE("send message to server failed!\r\n");
+			continue;
+		}
+
+		/*select system call, for multi client, and recevie msg from server*/
 		sfd_max = 0;
 		FD_ZERO(&read_set);
-
-		/*add the socket to the fd set*/
 		link_monitor_socket(&read_set, &sfd_max);
-		time_val.tv_sec = 0;
-		time_val.tv_usec = 500000;
+		time_val.tv_sec = 30;
+		time_val.tv_usec = 0;
 		ret = lwip_select(sfd_max + 1, &read_set, 0, 0, &time_val);
 		if(ret > 0)
 		{
@@ -217,6 +222,7 @@ static hi_void *tuya_heartbeat_task(hi_void *param)
 			MLOGE("lwip_select monitor fail!!\r\n");
 			goto failure;
 		} else {
+			MLOGD("select socket timeout, retry send msg!\r\n");
 			continue;
 		}
 	}
@@ -227,7 +233,7 @@ failure:
 		client_link_release();
 	}
 	g_tuya_heartbeat_task_id = - 1;
-    hi_mux_delete(g_ip_mux_id);
+	hi_mux_delete(g_ip_mux_id);
 	printf("{link_monitor : socket select failure\r\n");
 }
 
@@ -306,6 +312,48 @@ static hi_u32 tuya_client_show_msg()
 }
 
 
+static hi_u32 tuya_client_info_process()
+{
+	hi_s32 ret;
+	struct sockaddr_in cln_addr = {0};
+	socklen_t cln_addr_len = (socklen_t)sizeof(cln_addr);
+	hi_u32 print_len = 0;
+	hi_u32 ip_buffer_size;
+
+	hi_char *ip_buffer = (hi_char*)hi_malloc(HI_MOD_ID_APP_COMMON, IP_RESV_BUF_LEN);
+	if (ip_buffer == HI_NULL) {
+		MLOGD("{ip buffer malloc fail}\r\n");
+		return HI_ERR_FAILURE;
+	}
+	memset_s(ip_buffer, IP_RESV_BUF_LEN , 0, IP_RESV_BUF_LEN);
+
+	switch(g_author_status)
+	{
+		case LP_TYPE_AUTH_REQUEST:
+			ip_buffer_size = tuya_send_authention_request(ip_buffer);
+			MLOGD("send %d bytes authorization packets to server!\n", ip_buffer_size);
+		break;
+		case LP_TYPE_HEARTBEAT:
+			ip_buffer_size = tuya_send_heart_beat_packet(ip_buffer);
+			MLOGD("send %d bytes heartbeat packets to server!\n", ip_buffer_size);
+		break;
+		case LP_TYPE_WAKEUP:
+			MLOGD("wake up the host, stop the heartbeat packets!\n");
+			hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
+			return HI_ERR_SUCCESS;
+		break;
+	}
+	ret = sendto(g_client_link.sfd, ip_buffer, ip_buffer_size, 0, (struct sockaddr *)&cln_addr, (socklen_t)sizeof(cln_addr));
+	if(ret < 0) {
+		hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
+		MLOGD("send message to server faild!\n");
+		return HI_ERR_FAILURE;
+	}
+
+	hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
+	return HI_ERR_SUCCESS;
+}
+
 
 static hi_u32 tuya_server_info_process()
 {
@@ -314,80 +362,55 @@ static hi_u32 tuya_server_info_process()
 	socklen_t cln_addr_len = (socklen_t)sizeof(cln_addr);
 	hi_u32 print_len = 0;
 	hi_u32 ip_buffer_size;
-	hi_char *ip_buffer = (hi_char*)malloc(IP_RESV_BUF_LEN);
+	hi_char *ip_buffer = (hi_char*)hi_malloc(HI_MOD_ID_APP_COMMON, IP_RESV_BUF_LEN);
 	if (ip_buffer == HI_NULL) {
-		printf("{ip_ip_resv_output:ip buffer malloc fail}\r\n");
+		MLOGE("{ip buffer malloc fail}\r\n");
 		return HI_ERR_FAILURE;
 	}
 	memset_s(ip_buffer, IP_RESV_BUF_LEN , 0, IP_RESV_BUF_LEN);
-
-	/*
-		send packet to tuya server
-		0: author request
-		1: heartbeat request
-		2: wake up
-	*/
-	switch(g_author_status)
-	{
-		case 0:
-			ip_buffer_size = tuya_send_authention_request(ip_buffer);
-		break;
-		case 1:
-			ip_buffer_size = tuya_send_heart_beat_packet(ip_buffer);
-		break;
-		case 2:
-			MLOGD("wake up the host, stop the heartbeat packets!\n");
-			free(ip_buffer);
-			return HI_ERR_SUCCESS;
-		break;
-	}
-	ret = sendto(g_client_link.sfd, ip_buffer, ip_buffer_size, 0, (struct sockaddr *)&cln_addr, (socklen_t)sizeof(cln_addr));
-	if(ret < 0) {
-		free(ip_buffer);
-		MLOGD("send message to server faild!\n");
-		return HI_ERR_FAILURE;
-	}
 
 	ret = recvfrom(g_client_link.sfd, ip_buffer, IP_RESV_BUF_LEN, 0, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
 	if (ret < 0) {
 		if ((errno != EINTR) && (errno != EAGAIN)) {
 			g_client_link.stats = LINK_STATE_ERR_CLOSE;
 		}
-		free(ip_buffer);
+		hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
 		return HI_ERR_FAILURE;
 	} else if (ret == 0) {
 		g_client_link.stats = LINK_STATE_ERR_CLOSE;
-		free(ip_buffer);
+		hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
 		return HI_ERR_FAILURE;
 	}
 
-	/*recevie buffer process*/
-	memset_s(ip_buffer, IP_RESV_BUF_LEN , 0, IP_RESV_BUF_LEN);
 	switch(ip_buffer[1])
 	{
 		case LP_TYPE_AUTH_RESPONSE:
 			if(tuya_recevie_authention_response(ip_buffer) == HI_ERR_SUCCESS) {
-				g_author_status = 1;
+				g_author_status = LP_TYPE_HEARTBEAT;
 			}
 		break;
 		case LP_TYPE_HEARTBEAT:
-			if(tuya_receive_heart_beat_packet(ip_buffer) != HI_ERR_SUCCESS)
-				g_author_status = 0;
-			else
-				g_author_status = 0;
+			if(tuya_receive_heart_beat_packet(ip_buffer) != HI_ERR_SUCCESS) {
+				g_author_status = LP_TYPE_AUTH_REQUEST;
+			} else {
+				g_author_status = LP_TYPE_HEARTBEAT;
+				MLOGD("recevie %d bytes heartbeat packets from server!\n", ret);
+			}
 		break;
 		case LP_TYPE_WAKEUP:
-			if(tuya_recevie_wake_up_packet(ip_buffer) != HI_ERR_SUCCESS)
-				g_author_status = 2;
-			else
-				g_author_status = 0;
+			if(tuya_recevie_wake_up_packet(ip_buffer) != HI_ERR_SUCCESS) {
+				g_author_status = LP_TYPE_AUTH_REQUEST;
+			} else {
+				g_author_status = LP_TYPE_WAKEUP;
+				MLOGD("recevie %d bytes wakeup packets from server!\n", ret);
+			}
 		break;
 		default:
-			g_author_status = 0;
-			MLOGD("unknow packet from server!\n");
+			g_author_status = LP_TYPE_AUTH_REQUEST;
+			MLOGD("unknow packet from server! ip_buffer[1]=%d\n", ip_buffer[1]);
 		break;
 	}
-	free(ip_buffer);
+	hi_free(HI_MOD_ID_APP_COMMON, ip_buffer);
 	return HI_ERR_SUCCESS;
 }
 
@@ -400,7 +423,7 @@ static hi_void server_tcp_accept(hi_void)
 	hi_s8 link_id = -1;
 	hi_s32 ret;
 	hi_u32 send_len;
-	hi_char *send_msg = "huawei";
+	hi_char *send_msg = "ring";
 	send_len = strlen(send_msg);
 
 	resv_fd = accept(g_server_link.sfd, (struct sockaddr *)&cln_addr, (socklen_t *)&cln_addr_len);
