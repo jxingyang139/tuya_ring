@@ -828,6 +828,7 @@ static hi_s32 vlink_hi_channel_get_utc(char *buf)
 	char utc_time[64];
 	cJSON* item;
 	cJSON* root = cJSON_Parse(&buf[3]); 
+	hi_u64 utime;
 
 	if(NULL == root) {
 		MLOGE("-:parseJson---Parse fail\n");
@@ -845,8 +846,10 @@ static hi_s32 vlink_hi_channel_get_utc(char *buf)
 	}
 
 	cJSON_Delete(root);
-	MLOGD("-:parseJson-time = [%s]-\n", utc_time);
-
+	MLOGD(":parseJson-time = [%s]\n", utc_time);
+	utime = atol(utc_time);
+	hi_set_real_time(utime);
+	MLOGD("%lld\n",utime);
 	return HI_ERR_SUCCESS;
 }
 

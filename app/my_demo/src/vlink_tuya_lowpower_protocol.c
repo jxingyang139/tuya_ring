@@ -32,7 +32,8 @@ extern "C" {
 hi_uchar g_local_key[16] = {0x23, 0xac, 0x7b, 0x15, 0x0d, 0x89, 0x34,
 				 			0x92, 0xf1, 0x19, 0x33, 0xde, 0xc8, 0x6a,
 				 			0x10, 0x55};
-hi_char g_utc_time[16]={"1322343458"};
+
+hi_char g_utc_time[32];
 
 /*key*/
 hi_u8 const fixed_key[16] = {0x23, 0xac, 0x7b, 0x15, 0x0d, 0x89, 0x34,
@@ -71,6 +72,8 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 	link_packets_header g_header_pkg;
 	hi_u32 aes_out_len;
 	hi_u32 buf_size;
+	hi_u64 utime;
+	hi_char utime_str[32];
 
 	/*step1: generate iv random size*/
 	g_payload_pkg.data.type = 1;
@@ -110,6 +113,9 @@ hi_s32 tuya_send_authention_request(hi_uchar *buf)
 	/*step4: get the payload data of authorization string with utc and random*/
 	(hi_void)cipher_get_random_bytes(g_payload_pkg.data.random, PAYLOAD_DATA_RANDOM_LEN);
 	strcat(g_payload_pkg.data.authorization, "time=");
+	utime = hi_get_real_time();
+	(hi_void) memset_s(g_utc_time, sizeof(g_utc_time), 0, sizeof(g_utc_time));
+	sprintf(g_utc_time, "%lld", utime);
 	strcat(g_payload_pkg.data.authorization, g_utc_time);
 	strcat(g_payload_pkg.data.authorization, ",random=");
 	strcat(g_payload_pkg.data.authorization, g_payload_pkg.data.random);
@@ -206,7 +212,7 @@ hi_u32 tuya_recevie_authention_response(hi_uchar *buf)
 
 	link_payload_packets payload;
 	hi_uchar rand_str[64];
-	hi_uchar utc_str[16];
+	hi_uchar utc_str[32];
 	hi_uchar calc_sign[256];
 
 	hi_uchar hash_sha256[HASH_SHA256_LEN];

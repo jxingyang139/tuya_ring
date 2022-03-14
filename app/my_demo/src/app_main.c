@@ -638,6 +638,7 @@ hi_void app_main(hi_void)
 
 	hi_char buf_test[512];
 	hi_s32 buffer_t_size;
+	hi_set_real_time(1167655239);
 	buffer_t_size = tuya_send_authention_request(buf_test);
 	tuya_recevie_authention_response(buf_test);
 
