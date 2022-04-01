@@ -940,7 +940,7 @@ hi_u32 hi_efuse_usr_write(hi_u16 start_bit, hi_u16 size, const hi_u8 *key_data);
 /**
  * @ingroup iot_boot_api
  * 默认看门狗配置时间为26秒。
- * romboot启动后时间不可以修改，用户可以在flashboot中调用hi_watchdog_enable接口重新配置。
+ * 在romboot启动阶段这个时间不可以修改，在flashboot启动阶段可以修改（调用hi_watchdog_enable接口）。
  */
 #define WDG_TIME_US 26000000 /* 默认看门狗配置时间为26秒 */
 

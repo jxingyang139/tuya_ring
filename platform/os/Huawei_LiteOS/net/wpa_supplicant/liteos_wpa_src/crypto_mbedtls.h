@@ -10,7 +10,11 @@
 #include "mbedtls/ecp.h"
 #include "mbedtls/bignum.h"
 
-#define crypto_ec mbedtls_ecp_group
+struct crypto_ec {
+    mbedtls_ecp_group ecp;
+    mbedtls_mpi a;
+};
+
 #define crypto_bignum mbedtls_mpi
 #define crypto_ec_point mbedtls_ecp_point
 #define AES_128_ALT_BLOCK_SIZE 16

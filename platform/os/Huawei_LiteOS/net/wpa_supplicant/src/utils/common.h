@@ -15,6 +15,10 @@
 #define HISI_FAIL       (-1)
 #define WPA_FLAG_ON     1
 #define WPA_FLAG_OFF    0
+
+#define ext_wifi_dev hisi_wifi_dev
+#define los_get_wifi_dev_by_name hi_get_wifi_dev_by_name
+
 #if defined(__linux__) || defined(__GLIBC__)
 #ifndef HISI_CODE_CROP
 #include <endian.h>

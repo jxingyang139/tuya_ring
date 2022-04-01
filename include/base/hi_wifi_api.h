@@ -516,7 +516,7 @@ typedef struct {
  * Struct of scan strategy.CNcomment:扫描策略结构体.CNend
  */
 typedef struct {
-    unsigned char scan_cnt;   /* scan_cnt. CNcomment:扫描slot数,一个slot 30ms，默认为2 */
+    unsigned char scan_cnt;   /* scan_cnt. CNcomment:扫描slot数,一个slot 30ms，默认为2.CNend */
 } hi_wifi_scan_strategy_stru;
 
 /**
@@ -767,8 +767,8 @@ typedef struct {
  * Struct of linkloss parameters
 */
 typedef struct {
-    unsigned char linkloss_scale;       /* 取值范围: [1, 10]. 设置为n时，表示linkloss计数达到阈值的（n/10）时，开始发送探测帧保活 */
-    unsigned short linkloss_threshold;  /* 取值范围: [100, 1000]. 设置为n时，表示linkloss阈值时间为(100*n)ms */
+    unsigned char linkloss_scale;       /* linkloss_scale.CNcomment：取值范围[1, 10]. 设置为n时，表示linkloss计数达到阈值的（n/10）时，开始发送探测帧保活 默认为:5.CNend */
+    unsigned short linkloss_threshold;  /* linkloss_threshold.CNcomment：取值范围: [100, 1000]. 设置为n时，表示linkloss阈值时间为(100*n)ms 默认为:100.CNend */
     unsigned char resv;
 } hi_linkloss_paras_stru;
 
@@ -2400,8 +2400,8 @@ unsigned int hi_wifi_set_evm_para(unsigned char pa_bias, hi_wifi_xldo_voltage *o
               4. 不能在回调函数中再调用其他wifi API
               CNend
 * @param    ifname    [IN]            Type #char *, device name.CNcomment:接口名.CNend
-            custom_scan_param [IN]    Type #hi_wifi_scan_params *. parameters of adavance scan
-            cb        [IN]            Type #hi_wifi_scan_no_save_cb, scan result report callback registered by user.
+* @param    custom_scan_param [IN]    Type #hi_wifi_scan_params *. parameters of adavance scan
+* @param    cb        [IN]            Type #hi_wifi_scan_no_save_cb, scan result report callback registered by user.
 *                                     CNcomment:用户注册的扫描结果上报回调函数.CNend
 *
 * @retval #HISI_OK  Excute successfully
@@ -2426,8 +2426,8 @@ int hi_wifi_raw_scan(const char *ifname,
               3. 固定速率值参考《Hi3861V100／Hi3861LV100 AT命令 使用指南》AT+SETRATE描述
               CNend
 * @param  ifname    [IN]    Type #char *, device name.CNcomment:接口名.CNend
-          auto_rate [IN]    Type #unsigned char, auto_rate switch. CNcoment: 自动速率开关.CNend
-          alg_param [IN]    Type #alg_param_stru * parameters of algorithm. CNcoment: 算法参数. CNend
+* @param  auto_rate [IN]    Type #unsigned char, auto_rate switch. CNcoment: 自动速率开关.CNend
+* @param  alg_param [IN]    Type #alg_param_stru * parameters of algorithm. CNcoment: 算法参数. CNend
 *
 * @retval #HISI_OK  Excute successfully
 * @retval #Other           Error code
@@ -2518,14 +2518,15 @@ int hi_wifi_set_rts_threshold(unsigned char mode, unsigned short pkt_length);
 *           Enable anti-interference mode or not.CNcomment:是否使能抗干扰模式.CNend
 *
 * @param    ifname         [IN]     Type #const char *, device name.CNcomment:接口名.CNend
-*           enable         [IN]     Type #unsigned char, 0:disable, 1:enable, others:invalid.
+* @param    enable         [IN]     Type #unsigned char, 0:disable, 1:enable, others:invalid.
 *                                   CNcomment:是否使能抗干扰模式,0:禁止,1:使能,其它值:无效.CNend
-*           flag           [IN]     Type #unsigned short, anti-interference method bitmap,set bits to enable specific methods.
+* @param    flag           [IN]     Type #unsigned short, anti-interference method bitmap,set bits to enable specific methods.
 *                                   CNcomment:抗干扰措施使能bit配置,对应bit置0:不使能,1:使能;
 *                                                                    bit0:随机回退机制,
 *                                                                    bit1:数据vo业务,
 *                                                                    bit2:cca策略,
-*                                                                    bit3-bit15:暂保留.
+*                                                                    bit3:11b策略,
+*                                                                    bit4-bit15:暂保留.
 *                                   CNend
 *
 *
@@ -2546,13 +2547,13 @@ int hi_wifi_enable_intrf_mode(const char* ifname, unsigned char enable, unsigned
 *           Set hardware sent count in 11b modet.CNcomment:设置11b模式各档速率的硬件发送次数.CNend
 *
 * @param    ifname         [IN]     Type #char *, device name.CNcomment:接口名.CNend
-*           cnt0           [IN]     Type #unsigned char,hardware send times.
+* @param    cnt0           [IN]     Type #unsigned char,hardware send times.
 *                                   CNcomment:第0档速率硬件发送次数,[0,15]次.CNend
-*           cnt1           [IN]     Type #unsigned char,hardware send times.
+* @param    cnt1           [IN]     Type #unsigned char,hardware send times.
 *                                   CNcomment:第1档速率硬件发送次数,[0,15]次.CNend
-*           cnt2           [IN]     Type #unsigned char,hardware send times.
+* @param    cnt2           [IN]     Type #unsigned char,hardware send times.
 *                                   CNcomment:第2档速率硬件发送次数,[0,15]次.CNend
-*           cnt3           [IN]     Type #unsigned char,hardware send times.
+* @param    cnt3           [IN]     Type #unsigned char,hardware send times.
 *                                   CNcomment:第3档速率硬件发送次数,[0,15]次.CNend
 *                                   CNcomment:每档速率可以设置成0，但四档总和需大于0.CNend
 *

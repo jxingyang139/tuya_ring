@@ -616,6 +616,29 @@ struct crypto_bignum *crypto_bignum_init_set(const u8 *buf, size_t len)
 	return p;
 }
 
+struct crypto_bignum * crypto_bignum_init_uint(unsigned int val)
+{
+	unsigned int i;
+	unsigned int tmp = val;
+	u8 buf[sizeof(unsigned int)] = {0};
+	struct crypto_bignum *p = NULL;
+
+	p = crypto_bignum_init();
+	if (p == NULL)
+		return NULL;
+
+	for (i = 0; i < sizeof(unsigned int); i++) {
+		buf[i] = tmp & 0xFF;
+		tmp >>= 8; // 8 bits
+	}
+	if (mbedtls_mpi_read_binary_le(p, buf, sizeof(unsigned int)) != 0) {
+		crypto_bignum_deinit(p, 1);
+		p = NULL;
+	}
+
+	return p;
+}
+
 void crypto_bignum_deinit(struct crypto_bignum *n, int clear)
 {
 	(void)clear;
@@ -728,6 +751,22 @@ int crypto_bignum_div(const struct crypto_bignum *a, const struct crypto_bignum 
 	return mbedtls_mpi_div_mpi((mbedtls_mpi *)c, NULL, (const mbedtls_mpi *)a, (const mbedtls_mpi *)b);
 }
 
+int crypto_bignum_addmod(const struct crypto_bignum *a, const struct crypto_bignum *b,
+                         const struct crypto_bignum *c, struct crypto_bignum *d)
+{
+	int ret;
+	mbedtls_mpi mul;
+	if (a == NULL || b == NULL || c == NULL || d == NULL)
+		return -1;
+	mbedtls_mpi_init(&mul);
+	ret = mbedtls_mpi_add_mpi(&mul, (const mbedtls_mpi *)a, (const mbedtls_mpi *)b);
+	if (ret == 0)
+		ret = mbedtls_mpi_mod_mpi((mbedtls_mpi *)d, &mul, (const mbedtls_mpi *)c);
+
+	mbedtls_mpi_free(&mul);
+	return (ret == 0) ? 0 : -1;
+}
+
 int crypto_bignum_mulmod(const struct crypto_bignum *a, const struct crypto_bignum *b,
                          const struct crypto_bignum *c, struct crypto_bignum *d)
 {
@@ -741,7 +780,14 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a, const struct crypto_bign
 		ret = mbedtls_mpi_mod_mpi((mbedtls_mpi *)d, &mul, (const mbedtls_mpi *)c);
 
 	mbedtls_mpi_free(&mul);
-	return ret;
+	return (ret == 0) ? 0 : -1;
+}
+
+int crypto_bignum_sqrmod(const struct crypto_bignum *a,
+			 const struct crypto_bignum *b,
+			 struct crypto_bignum *c)
+{
+	return crypto_bignum_mulmod(a, a, b, c);
 }
 
 int crypto_bignum_rshift(const struct crypto_bignum *a, int n, struct crypto_bignum *r)
@@ -851,30 +897,43 @@ struct crypto_ec *crypto_ec_init(int group)
 			return NULL;
 	}
 
-	struct crypto_ec *e = os_zalloc(sizeof(struct crypto_ec));
-	if (e == NULL)
+	struct crypto_ec *ec = os_zalloc(sizeof(struct crypto_ec));
+	if (ec == NULL)
 		return NULL;
 
+	mbedtls_ecp_group *e = &ec->ecp;
 	mbedtls_ecp_group_init(e);
 	if (mbedtls_ecp_group_load(e, id)) {
-		crypto_ec_deinit(e);
+		crypto_ec_deinit(ec);
 		return NULL;
 	}
 
-	return e;
+	int ret;
+	mbedtls_mpi_init(&ec->a);
+	if (e->A.p == NULL)
+		ret = mbedtls_mpi_sub_int(&ec->a, &e->P, 3);
+	else
+		ret = mbedtls_mpi_copy(&ec->a, &e->A);
+
+	if (ret != 0) {
+		crypto_ec_deinit(ec);
+		return NULL;
+	}
+	return ec;
 }
 
-void crypto_ec_deinit(struct crypto_ec *e)
+void crypto_ec_deinit(struct crypto_ec *ec)
 {
-	if (e != NULL) {
-		mbedtls_ecp_group_free(e);
-		os_free(e);
+	if (ec != NULL) {
+		mbedtls_ecp_group_free(&ec->ecp);
+		mbedtls_mpi_free(&ec->a);
+		os_free(ec);
 	}
 }
 
-struct crypto_ec_point *crypto_ec_point_init(struct crypto_ec *e)
+struct crypto_ec_point *crypto_ec_point_init(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return NULL;
 
 	crypto_ec_point *p = os_zalloc(sizeof(*p));
@@ -900,53 +959,71 @@ void crypto_ec_point_deinit(struct crypto_ec_point *e, int clear)
 	os_free(e);
 }
 
-size_t crypto_ec_prime_len(struct crypto_ec *e)
+size_t crypto_ec_prime_len(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return 0;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return mbedtls_mpi_size(&e->P);
 }
 
-size_t crypto_ec_prime_len_bits(struct crypto_ec *e)
+size_t crypto_ec_prime_len_bits(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return 0;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return mbedtls_mpi_bitlen(&e->P);
 }
 
-size_t crypto_ec_order_len(struct crypto_ec *e)
+size_t crypto_ec_order_len(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return 0;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return mbedtls_mpi_size(&e->N);
 }
 
-const struct crypto_bignum *crypto_ec_get_prime(struct crypto_ec *e)
+const struct crypto_bignum *crypto_ec_get_prime(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return NULL;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return (const struct crypto_bignum *)&e->P;
 }
 
-const struct crypto_bignum *crypto_ec_get_order(struct crypto_ec *e)
+const struct crypto_bignum *crypto_ec_get_order(struct crypto_ec *ec)
 {
-	if (e == NULL)
+	if (ec == NULL)
 		return NULL;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return (const struct crypto_bignum *)&e->N;
 }
 
-int crypto_ec_point_to_bin(struct crypto_ec *e, const struct crypto_ec_point *point, u8 *x, u8 *y)
+/* only for Weierstrass curves */
+const struct crypto_bignum *crypto_ec_get_a(struct crypto_ec *ec)
+{
+	if (ec == NULL)
+		return NULL;
+
+	return (const struct crypto_bignum *)&ec->a; // a is member of ec.
+}
+
+/* only for Weierstrass curves */
+const struct crypto_bignum *crypto_ec_get_b(struct crypto_ec *ec)
+{
+	if (ec == NULL)
+		return NULL;
+	mbedtls_ecp_group *e = &ec->ecp;
+	return (const struct crypto_bignum *) &e->B;
+}
+
+int crypto_ec_point_to_bin(struct crypto_ec *ec, const struct crypto_ec_point *point, u8 *x, u8 *y)
 {
 	int ret = -1;
 	size_t len;
-	if (e == NULL || point == NULL)
+	if (ec == NULL || point == NULL)
 		return -1;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	len = mbedtls_mpi_size(&e->P);
 	if (x != NULL) {
 		ret = mbedtls_mpi_write_binary(&(((const mbedtls_ecp_point *)point)->X), x, len);
@@ -962,17 +1039,18 @@ int crypto_ec_point_to_bin(struct crypto_ec *e, const struct crypto_ec_point *po
 	return ret;
 }
 
-struct crypto_ec_point *crypto_ec_point_from_bin(struct crypto_ec *e, const u8 *val)
+struct crypto_ec_point *crypto_ec_point_from_bin(struct crypto_ec *ec, const u8 *val)
 {
 	int ret;
 	size_t len;
-	if (e == NULL || val == NULL)
+	if (ec == NULL || val == NULL)
 		return NULL;
 
-	crypto_ec_point *p = crypto_ec_point_init(e);
+	crypto_ec_point *p = crypto_ec_point_init(ec);
 	if (p == NULL)
 		return NULL;
 
+	mbedtls_ecp_group *e = &ec->ecp;
 	len = mbedtls_mpi_size(&e->P);
 	ret = mbedtls_mpi_read_binary(&p->X, val, len);
 	if (ret == 0)
@@ -986,12 +1064,13 @@ struct crypto_ec_point *crypto_ec_point_from_bin(struct crypto_ec *e, const u8 *
 	return p;
 }
 
-int crypto_ec_point_add(struct crypto_ec *e, const struct crypto_ec_point *a,
+int crypto_ec_point_add(struct crypto_ec *ec, const struct crypto_ec_point *a,
                         const struct crypto_ec_point *b, struct crypto_ec_point *c)
 {
 	int ret;
-	if (e == NULL || a == NULL || b == NULL || c == NULL)
+	if (ec == NULL || a == NULL || b == NULL || c == NULL)
 		return -1;
+	mbedtls_ecp_group *e = &ec->ecp;
 	hi_watchdog_feed();
 	crypto_bignum one;
 	mbedtls_mpi_init(&one);
@@ -1006,40 +1085,41 @@ int crypto_ec_point_add(struct crypto_ec *e, const struct crypto_ec_point *a,
 /*
  * Multiplication res = b * p
  */
-int crypto_ec_point_mul(struct crypto_ec *e, const struct crypto_ec_point *p,
+int crypto_ec_point_mul(struct crypto_ec *ec, const struct crypto_ec_point *p,
                         const struct crypto_bignum *b,
                         struct crypto_ec_point *res)
 {
-	if (e == NULL || p == NULL || b == NULL || res == NULL)
+	if (ec == NULL || p == NULL || b == NULL || res == NULL)
 		return -1;
+	mbedtls_ecp_group *e = &ec->ecp;
 	hi_watchdog_feed();
 	return mbedtls_ecp_mul(e, res, b, p, NULL, NULL) ? -1 : 0;
 }
 
-int crypto_ec_point_invert(struct crypto_ec *e, struct crypto_ec_point *p)
+int crypto_ec_point_invert(struct crypto_ec *ec, struct crypto_ec_point *p)
 {
-	if (e == NULL || p == NULL)
+	if (ec == NULL || p == NULL)
 		return -1;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	return mbedtls_mpi_sub_mpi(&p->Y, &e->P, &p->Y);
 }
 
 // y_bit (first byte of compressed point) mod 2 odd : r = p - r
-int crypto_ec_point_solve_y_coord(struct crypto_ec *e,
+int crypto_ec_point_solve_y_coord(struct crypto_ec *ec,
                                   struct crypto_ec_point *p,
                                   const struct crypto_bignum *x, int y_bit)
 {
 	int ret;
 	mbedtls_mpi n;
-	if (e == NULL || p == NULL || x == NULL)
+	if (ec == NULL || p == NULL || x == NULL)
 		return -1;
-
 	// Calculate square root of r over finite field P:
 	// r = sqrt(x^3 + ax + b) = (x^3 + ax + b) ^ ((P + 1) / 4) (mod P)
-	struct crypto_bignum *y_sqr = crypto_ec_point_compute_y_sqr(e, x);
+	struct crypto_bignum *y_sqr = crypto_ec_point_compute_y_sqr(ec, x);
 	if (y_sqr == NULL)
 		return -1;
 
+	mbedtls_ecp_group *e = &ec->ecp;
 	mbedtls_mpi_init(&n);
 
 	ret = mbedtls_mpi_add_int(&n, &e->P, 1);
@@ -1067,12 +1147,12 @@ int crypto_ec_point_solve_y_coord(struct crypto_ec *e,
 	return ret;
 }
 
-struct crypto_bignum *crypto_ec_point_compute_y_sqr(struct crypto_ec *e, const struct crypto_bignum *x)
+struct crypto_bignum *crypto_ec_point_compute_y_sqr(struct crypto_ec *ec, const struct crypto_bignum *x)
 {
 	int ret;
-	if (e == NULL || x == NULL)
+	if (ec == NULL || x == NULL)
 		return NULL;
-
+	mbedtls_ecp_group *e = &ec->ecp;
 	struct crypto_bignum *y2 = crypto_bignum_init();
 	if (y2 == NULL)
 		return NULL;
@@ -1110,26 +1190,27 @@ struct crypto_bignum *crypto_ec_point_compute_y_sqr(struct crypto_ec *e, const s
 	return y2;
 }
 
-int crypto_ec_point_is_at_infinity(struct crypto_ec *e, const struct crypto_ec_point *p)
+int crypto_ec_point_is_at_infinity(struct crypto_ec *ec, const struct crypto_ec_point *p)
 {
-	(void)e;
+	(void)ec;
 	if (p == NULL)
 		return 0;
 	return mbedtls_ecp_is_zero((struct crypto_ec_point *)p);
 }
 
-int crypto_ec_point_is_on_curve(struct crypto_ec *e, const struct crypto_ec_point *p)
+int crypto_ec_point_is_on_curve(struct crypto_ec *ec, const struct crypto_ec_point *p)
 {
-	if (e == NULL || p == NULL)
+	if (ec == NULL || p == NULL)
 		return 0;
+	mbedtls_ecp_group *e = &ec->ecp;
 	return mbedtls_ecp_check_pubkey(e, p) ? 0 : 1;
 }
 
-int crypto_ec_point_cmp(const struct crypto_ec *e,
+int crypto_ec_point_cmp(const struct crypto_ec *ec,
                         const struct crypto_ec_point *a,
                         const struct crypto_ec_point *b)
 {
-	(void)e;
+	(void)ec;
 	if (a == NULL || b == NULL)
 		return -1;
 	return mbedtls_ecp_point_cmp(a, b);

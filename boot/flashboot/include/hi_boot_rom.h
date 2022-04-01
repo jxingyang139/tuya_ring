@@ -728,9 +728,9 @@ hi_u32 boot_free(hi_void *addr);
  */
 /**
  * @ingroup iot_watchdog
- * The default watchdog configuration time is 26 seconds. The time cannot be modified after romboot is started,
-   users can call hi_watchdog_enable interface to reconfigure in flashboot.CNcomment:默认看门狗配置时间为26秒。
-   romboot启动后时间不可以修改，用户可以在flashboot中调用hi_watchdog_enable接口重新配置。CNend
+ * The default watchdog configuration time is 26 seconds. The time cannot be modified during the rom boot startup phase,
+   users can call hi_watchdog_enable interface to configure it during flashboot phase.CNcomment:默认看门狗配置时间为26秒。
+   在romboot启动阶段这个时间不可以修改，在flashboot启动阶段可以修改（调用hi_watchdog_enable接口）。CNend
  */
 #define WDG_TIME_US 26000000 /* 默认看门狗配置时间为26秒 */
 

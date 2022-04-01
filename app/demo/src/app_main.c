@@ -266,7 +266,7 @@ hi_void peripheral_init(hi_void)
 
     if (g_have_inited == HI_FALSE) {
         /* app_io_set_gpio2_clkout_enable(HI_TRUE); set gpio2 clock out  */
-
+        /* 此处为避免AT初始化之前使用UART1导致错误, 事先初始化UART1, 即使将AT口改为其他串口, 也无需修改此处 */
         ret = hi_uart_init(HI_UART_IDX_1, &g_at_uart_cfg, HI_NULL);
         if (ret != HI_ERR_SUCCESS) {
             err_info |= PERIPHERAL_INIT_ERR_UART1;

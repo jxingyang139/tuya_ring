@@ -296,10 +296,10 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_noa_duration: msg len %d.} @alg_common.c(2326)" ID="0x4a02459" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_set_mgmt_frame_header_mac_addrsss: memcpy_s failed.} @alg_common.c(2346)" ID="0x4a024a9" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_user_set_key::keytpe==%u, ciphertype==%u, keyid==%u, usridx==%u} @alg_common.c(367)" ID="0x4a005bd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_set_reg_flag type vaild:value = %u} @alg_common.c(203)" ID="0x4a0032d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_get_reg_flag type vaild:value = %u} @alg_common.c(226)" ID="0x4a00389" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_get_intrf_enable_flag type vaild:value = %u} @alg_common.c(244)" ID="0x4a003d1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_cnt type vaild:value = %u} @alg_common.c(295)" ID="0x4a0049d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_set_reg_flag type vaild:value = %u} @alg_common.c(205)" ID="0x4a00335" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_get_reg_flag type vaild:value = %u} @alg_common.c(228)" ID="0x4a00391" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_get_intrf_enable_flag type vaild:value = %u} @alg_common.c(249)" ID="0x4a003e5" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{alg_common_cnt type vaild:value = %u} @alg_common.c(300)" ID="0x4a004b1" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @alg_dbac.c(2078)" ID="0x4052078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @alg_dbac.c(2089)" ID="0x40520a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @alg_dbac.c(2100)" ID="0x40520d0" />
@@ -719,19 +719,19 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="cali_asic,invalid xtal_clock: %d @hal_hi1131_cali_ram.c(3949)" ID="0x4713db4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="cali_asic,malloc iq_data failed @hal_hi1131_cali_ram.c(3977)" ID="0x4713e24" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_set_cur_temp_code::device_stru is null} @hal_hi1131_cali_ram.c(5746)" ID="0x47159c9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_set_center_freq_offset::set_freq_offset failed.} @hal_hi1131_cali_ram.c(6060)" ID="0x4715eb1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::Save freq offset and band pwr offset failed} @hal_hi1131_cali_ram.c(6232)" ID="0x4716161" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::idx %d.Rsp %d.State 0x%x} @hal_hi1131_cali_ram.c(6241)" ID="0x4716185" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::lock failed} @hal_hi1131_cali_ram.c(6252)" ID="0x47161b1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::failed. All sections have been occupied.} @hal_hi1131_cali_ram.c(6260)" ID="0x47161d1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hi1131_dbg_save_paras_to_nv: read nvm failed!\n @hal_hi1131_cali_ram.c(6289)" ID="0x4716244" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hi1131_dbg_save_paras_to_nv: write nvm failed!\n @hal_hi1131_cali_ram.c(6299)" ID="0x471626c" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::Save mac addr to efuse failed} @hal_hi1131_cali_ram.c(6341)" ID="0x4716315" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::lock mac addr failed} @hal_hi1131_cali_ram.c(6345)" ID="0x4716325" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::size[%d] error!} @hal_hi1131_cali_ram.c(6375)" ID="0x471639d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::Read failed! Idx %d.} @hal_hi1131_cali_ram.c(6386)" ID="0x47163c9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::chances used out} @hal_hi1131_cali_ram.c(6402)" ID="0x4716409" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_temperature_compesation_ram::device_stru is null} @hal_hi1131_cali_ram.c(6565)" ID="0x4716695" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_set_center_freq_offset::set_freq_offset failed.} @hal_hi1131_cali_ram.c(6097)" ID="0x4715f45" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::Save freq offset and band pwr offset failed} @hal_hi1131_cali_ram.c(6269)" ID="0x47161f5" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::idx %d.Rsp %d.State 0x%x} @hal_hi1131_cali_ram.c(6278)" ID="0x4716219" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::lock failed} @hal_hi1131_cali_ram.c(6289)" ID="0x4716245" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{Save_to_efuse::failed. All sections have been occupied.} @hal_hi1131_cali_ram.c(6297)" ID="0x4716265" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hi1131_dbg_save_paras_to_nv: read nvm failed!\n @hal_hi1131_cali_ram.c(6326)" ID="0x47162d8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hi1131_dbg_save_paras_to_nv: write nvm failed!\n @hal_hi1131_cali_ram.c(6336)" ID="0x4716300" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::Save mac addr to efuse failed} @hal_hi1131_cali_ram.c(6378)" ID="0x47163a9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::lock mac addr failed} @hal_hi1131_cali_ram.c(6382)" ID="0x47163b9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::size[%d] error!} @hal_hi1131_cali_ram.c(6412)" ID="0x4716431" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::Read failed! Idx %d.} @hal_hi1131_cali_ram.c(6423)" ID="0x471645d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_ate_save_mac_to_efuse::chances used out} @hal_hi1131_cali_ram.c(6439)" ID="0x471649d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hi1131_temperature_compesation_ram::device_stru is null} @hal_hi1131_cali_ram.c(6599)" ID="0x471671d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @hal_device.c(2078)" ID="0x4722078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @hal_device.c(2089)" ID="0x47220a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @hal_device.c(2100)" ID="0x47220d0" />
@@ -1057,13 +1057,13 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_noa_duration: msg len %d.} @mac_pm_driver.c(2326)" ID="0x4682459" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_set_mgmt_frame_header_mac_addrsss: memcpy_s failed.} @mac_pm_driver.c(2346)" ID="0x46824a9" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_user_set_key::keytpe==%u, ciphertype==%u, keyid==%u, usridx==%u} @mac_pm_driver.c(367)" ID="0x46805bd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_sta_wait_for_deepsleep::timer already enabled,current time[%d],timer[%d]} @mac_pm_driver.c(67)" ID="0x468010d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_register_serv_id:: service id is out of range} @mac_pm_driver.c(95)" ID="0x468017d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_register_serv_id:: service id is out of range} @mac_pm_driver.c(105)" ID="0x46801a5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{sta0: inner status[%d], offset[%d], ext tsf h[%d] l[%d].} @mac_pm_driver.c(420)" ID="0x4680691" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_deepsleep_load_state:: hal device is null.} @mac_pm_driver.c(464)" ID="0x4680740" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_enable_front_end:: hal device is null.} @mac_pm_driver.c(529)" ID="0x4680844" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_enable_front_end::Fail to open rfldo.} @mac_pm_driver.c(549)" ID="0x4680895" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_sta_wait_for_deepsleep::timer already enabled,current time[%d],timer[%d]} @mac_pm_driver.c(70)" ID="0x4680119" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_register_serv_id:: service id is out of range} @mac_pm_driver.c(98)" ID="0x4680189" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_register_serv_id:: service id is out of range} @mac_pm_driver.c(108)" ID="0x46801b1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{sta0: inner status[%d], offset[%d], ext tsf h[%d] l[%d].} @mac_pm_driver.c(432)" ID="0x46806c1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_wlan_deepsleep_load_state:: hal device is null.} @mac_pm_driver.c(476)" ID="0x4680770" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_enable_front_end:: hal device is null.} @mac_pm_driver.c(541)" ID="0x4680874" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{pm_enable_front_end::Fail to open rfldo.} @mac_pm_driver.c(561)" ID="0x46808c5" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @mac_data.c(2078)" ID="0x4692078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @mac_data.c(2089)" ID="0x46920a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @mac_data.c(2100)" ID="0x46920d0" />
@@ -2077,24 +2077,24 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_update_status_code_by_user::auth type[%d] not support!} @hmac_encap_frame_ap.c(798)" ID="0x4270c79" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_update_auth_rsp_status_code::user mac is all 0 !} @hmac_encap_frame_ap.c(827)" ID="0x4270ced" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_auth_rsp::get_user_idx fail, error code[%d]!} @hmac_encap_frame_ap.c(840)" ID="0x4270d21" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_auth_rsp::ul_auth_proc_rst:%d} @hmac_encap_frame_ap.c(985)" ID="0x4270f65" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_open_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1038)" ID="0x4271038" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_open_frame:: memcpy fail. @hmac_encap_frame_ap.c(1123)" ID="0x427118c" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_confirm_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1175)" ID="0x427125c" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_confirm_frame::puc_data_1 memcpy fail. @hmac_encap_frame_ap.c(1209)" ID="0x42712e4" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_confirm_frame:: puc_data_2 memcpy fail. @hmac_encap_frame_ap.c(1253)" ID="0x4271394" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1300)" ID="0x4271450" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1306)" ID="0x4271468" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1312)" ID="0x4271480" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_close_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1334)" ID="0x42714d8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1384)" ID="0x42715a0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1390)" ID="0x42715b8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1396)" ID="0x42715d0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_group_key_inform_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1419)" ID="0x427162c" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1468)" ID="0x42716f0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1474)" ID="0x4271708" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1480)" ID="0x4271720" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_group_key_ack_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1503)" ID="0x427177c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_auth_rsp::ul_auth_proc_rst:%d} @hmac_encap_frame_ap.c(990)" ID="0x4270f79" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_open_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1043)" ID="0x427104c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_open_frame:: memcpy fail. @hmac_encap_frame_ap.c(1128)" ID="0x42711a0" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_confirm_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1180)" ID="0x4271270" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_confirm_frame::puc_data_1 memcpy fail. @hmac_encap_frame_ap.c(1214)" ID="0x42712f8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_confirm_frame:: puc_data_2 memcpy fail. @hmac_encap_frame_ap.c(1258)" ID="0x42713a8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1305)" ID="0x4271464" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1311)" ID="0x427147c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_peering_close_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1317)" ID="0x4271494" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_peering_close_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1339)" ID="0x42714ec" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1389)" ID="0x42715b4" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1395)" ID="0x42715cc" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_inform_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1401)" ID="0x42715e4" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_group_key_inform_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1424)" ID="0x4271640" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1473)" ID="0x4271704" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1479)" ID="0x427171c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_encap_mesh_group_key_ack_frame::memcpy_s fail.} @hmac_encap_frame_ap.c(1485)" ID="0x4271734" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_encap_mesh_group_key_ack_frame:: puc_data memcpy fail. @hmac_encap_frame_ap.c(1508)" ID="0x4271790" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @hmac_vap.c(2078)" ID="0x4282078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @hmac_vap.c(2089)" ID="0x42820a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @hmac_vap.c(2100)" ID="0x42820d0" />
@@ -2648,56 +2648,57 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::pst_asoc_rsp null.} @hmac_mgmt_ap.c(1687)" ID="0x4351a5c" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::hmac_mgmt_encap_asoc_rsp_ap encap msg fail.} @hmac_mgmt_ap.c(1707)" ID="0x4351aad" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::hmac_tx_mgmt_send_event failed[%d].} @hmac_mgmt_ap.c(1761)" ID="0x4351b85" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::STA assoc success! idx=%d.} @hmac_mgmt_ap.c(1831)" ID="0x4351c9d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::Because of err_code[%d], disassoc frame from source addr %xx:xx:xx:%02x:%02x:%02x.} @hmac_mgmt_ap.c(1867)" ID="0x4351d2d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::pst_hmac_user null.} @hmac_mgmt_ap.c(1871)" ID="0x4351d3d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::[MESH] receive disassoc req from mesh user, user mac:XX:XX:XX:%02X:%02X:%02X.} @hmac_mgmt_ap.c(1882)" ID="0x4351d69" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::hmac_start_sa_query Err=%d} @hmac_mgmt_ap.c(1894)" ID="0x4351d98" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::PMF check fail,is_protected=%d} @hmac_mgmt_ap.c(1904)" ID="0x4351dc0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::hmac_user_del err=%d} @hmac_mgmt_ap.c(1915)" ID="0x4351ded" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_get_mesh_hmac_user::rx open frame but no user.} @hmac_mgmt_ap.c(1930)" ID="0x4351e29" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_get_mesh_hmac_user::find_user failed.} @hmac_mgmt_ap.c(1933)" ID="0x4351e35" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:is_mbr[%d] don't switch}\n @hmac_mgmt_ap.c(1965)" ID="0x4351eb5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:switch channel is doing}\n @hmac_mgmt_ap.c(1970)" ID="0x4351ec9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:csa ie is fail}\n @hmac_mgmt_ap.c(1976)" ID="0x4351ee1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:bw[%d], new chan[%d], old chan[%d], beacon[%d]}\n @hmac_mgmt_ap.c(1985)" ID="0x4351f05" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_self_protected::rx self-protected confirm frame but user is NULL!.} @hmac_mgmt_ap.c(2069)" ID="0x4352055" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_self_protected::unsupported self protected action subtype.} @hmac_mgmt_ap.c(2097)" ID="0x43520c5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_category_mesh::[MESH]rx tbtt adj req/rsp.} @hmac_mgmt_ap.c(2107)" ID="0x43520ee" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_category_mesh::unsupported mesh action subtype.} @hmac_mgmt_ap.c(2111)" ID="0x43520fd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:vap mode[%d]}\n @hmac_mgmt_ap.c(2140)" ID="0x4352171" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:switch channel is doing}\n @hmac_mgmt_ap.c(2149)" ID="0x4352195" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:csa ie is fail}\n @hmac_mgmt_ap.c(2155)" ID="0x43521ad" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:second channel ie is fail}\n @hmac_mgmt_ap.c(2164)" ID="0x43521d1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:new_bw[%d], channel[%d],%d, %d}\n @hmac_mgmt_ap.c(2171)" ID="0x43521ed" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::auth frame err.} @hmac_mgmt_ap.c(2305)" ID="0x4352404" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::deauth frame err.} @hmac_mgmt_ap.c(2313)" ID="0x4352424" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::disassoc frame err.} @hmac_mgmt_ap.c(2326)" ID="0x4352458" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::action frame err.} @hmac_mgmt_ap.c(2334)" ID="0x4352478" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::beacon frame err.} @hmac_mgmt_ap.c(2347)" ID="0x43524ac" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::pst_hmac_vap null.} @hmac_mgmt_ap.c(2378)" ID="0x4352528" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::Wait AUTH timeout!! After %d ms.} @hmac_mgmt_ap.c(2386)" ID="0x4352549" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::hmac_user_del failed[%d].} @hmac_mgmt_ap.c(2395)" ID="0x435256d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::request user[%d] is not mesh user} @hmac_mgmt_ap.c(2418)" ID="0x43525c9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{rx_confirm_action::user[%d] assoc state[%d], rx confirm[%d],dont' update user info!} @hmac_mgmt_ap.c(2426)" ID="0x43525e9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::hmac_ap_up_update_sta_user failed[%d].} @hmac_mgmt_ap.c(2439)" ID="0x435261d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::usr_info_syn failed[%d].} @hmac_mgmt_ap.c(2447)" ID="0x435263c" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action:: fail rslt=%d,status_code=%d @hmac_mgmt_ap.c(2458)" ID="0x4352669" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{rx mesh confirm update user[%d] succ} @hmac_mgmt_ap.c(2464)" ID="0x4352681" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::dot11RSNAActivated = FALSE.} @hmac_mgmt_ap.c(2500)" ID="0x4352712" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::dot11MeshSecurityActivated = FALSE.} @hmac_mgmt_ap.c(2506)" ID="0x435272a" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::can not find RSNA ie.} @hmac_mgmt_ap.c(2519)" ID="0x435275e" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap:getSecurityOui Er} @hmac_mgmt_ap.c(2561)" ID="0x4352804" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap:unsup rsn ver=%d} @hmac_mgmt_ap.c(2569)" ID="0x4352824" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid OUI.} @hmac_mgmt_ap.c(2578)" ID="0x4352849" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid group[%d].} @hmac_mgmt_ap.c(2596)" ID="0x4352890" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid pcip[%d].} @hmac_mgmt_ap.c(2603)" ID="0x43528ac" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid auth[%d].} @hmac_mgmt_ap.c(2610)" ID="0x43528c8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_alloc_pmksa_entry::alloc memory failed for storing pmksa.} @hmac_mgmt_ap.c(2679)" ID="0x43529dd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_alloc_pmksa_entry::pmksa list is empty.} @hmac_mgmt_ap.c(2702)" ID="0x4352a39" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_clean_expire_pmksa::arg null.} @hmac_mgmt_ap.c(2768)" ID="0x4352b40" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="Mac addr[X:X:X:%x:%x:%x]'s pmkid expire, release pmkid\n @hmac_mgmt_ap.c(2791)" ID="0x4352b9d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_clean_all_pmksa::hmac_vap is null.} @hmac_mgmt_ap.c(2808)" ID="0x4352be0" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::user associated, unexpected (re)assoc req!} @hmac_mgmt_ap.c(1802)" ID="0x4351c29" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_asoc_req::STA assoc success! idx=%d.} @hmac_mgmt_ap.c(1830)" ID="0x4351c99" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::Because of err_code[%d], disassoc frame from source addr %xx:xx:xx:%02x:%02x:%02x.} @hmac_mgmt_ap.c(1866)" ID="0x4351d29" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::pst_hmac_user null.} @hmac_mgmt_ap.c(1870)" ID="0x4351d39" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::[MESH] receive disassoc req from mesh user, user mac:XX:XX:XX:%02X:%02X:%02X.} @hmac_mgmt_ap.c(1881)" ID="0x4351d65" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::hmac_start_sa_query Err=%d} @hmac_mgmt_ap.c(1893)" ID="0x4351d94" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::PMF check fail,is_protected=%d} @hmac_mgmt_ap.c(1903)" ID="0x4351dbc" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_disasoc::hmac_user_del err=%d} @hmac_mgmt_ap.c(1914)" ID="0x4351de9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_get_mesh_hmac_user::rx open frame but no user.} @hmac_mgmt_ap.c(1929)" ID="0x4351e25" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_get_mesh_hmac_user::find_user failed.} @hmac_mgmt_ap.c(1932)" ID="0x4351e31" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:is_mbr[%d] don't switch}\n @hmac_mgmt_ap.c(1964)" ID="0x4351eb1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:switch channel is doing}\n @hmac_mgmt_ap.c(1969)" ID="0x4351ec5" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:csa ie is fail}\n @hmac_mgmt_ap.c(1975)" ID="0x4351edd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_beacon:bw[%d], new chan[%d], old chan[%d], beacon[%d]}\n @hmac_mgmt_ap.c(1984)" ID="0x4351f01" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_self_protected::rx self-protected confirm frame but user is NULL!.} @hmac_mgmt_ap.c(2068)" ID="0x4352051" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_self_protected::unsupported self protected action subtype.} @hmac_mgmt_ap.c(2096)" ID="0x43520c1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_category_mesh::[MESH]rx tbtt adj req/rsp.} @hmac_mgmt_ap.c(2106)" ID="0x43520ea" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_action_category_mesh::unsupported mesh action subtype.} @hmac_mgmt_ap.c(2110)" ID="0x43520f9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:vap mode[%d]}\n @hmac_mgmt_ap.c(2139)" ID="0x435216d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:switch channel is doing}\n @hmac_mgmt_ap.c(2148)" ID="0x4352191" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:csa ie is fail}\n @hmac_mgmt_ap.c(2154)" ID="0x43521a9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:second channel ie is fail}\n @hmac_mgmt_ap.c(2163)" ID="0x43521cd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_ch_switch:new_bw[%d], channel[%d],%d, %d}\n @hmac_mgmt_ap.c(2170)" ID="0x43521e9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::auth frame err.} @hmac_mgmt_ap.c(2304)" ID="0x4352400" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::deauth frame err.} @hmac_mgmt_ap.c(2312)" ID="0x4352420" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::disassoc frame err.} @hmac_mgmt_ap.c(2325)" ID="0x4352454" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::action frame err.} @hmac_mgmt_ap.c(2333)" ID="0x4352474" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_ap_up_rx_mgmt::beacon frame err.} @hmac_mgmt_ap.c(2346)" ID="0x43524a8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::pst_hmac_vap null.} @hmac_mgmt_ap.c(2377)" ID="0x4352524" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::Wait AUTH timeout!! After %d ms.} @hmac_mgmt_ap.c(2385)" ID="0x4352545" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mgmt_timeout_ap::hmac_user_del failed[%d].} @hmac_mgmt_ap.c(2403)" ID="0x435258d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::request user[%d] is not mesh user} @hmac_mgmt_ap.c(2426)" ID="0x43525e9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{rx_confirm_action::user[%d] assoc state[%d], rx confirm[%d],dont' update user info!} @hmac_mgmt_ap.c(2434)" ID="0x4352609" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::hmac_ap_up_update_sta_user failed[%d].} @hmac_mgmt_ap.c(2447)" ID="0x435263d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action::usr_info_syn failed[%d].} @hmac_mgmt_ap.c(2455)" ID="0x435265c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_mesh_up_rx_confirm_action:: fail rslt=%d,status_code=%d @hmac_mgmt_ap.c(2466)" ID="0x4352689" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{rx mesh confirm update user[%d] succ} @hmac_mgmt_ap.c(2472)" ID="0x43526a1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::dot11RSNAActivated = FALSE.} @hmac_mgmt_ap.c(2508)" ID="0x4352732" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::dot11MeshSecurityActivated = FALSE.} @hmac_mgmt_ap.c(2514)" ID="0x435274a" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_check_open_action_sec_authenticator::can not find RSNA ie.} @hmac_mgmt_ap.c(2527)" ID="0x435277e" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap:getSecurityOui Er} @hmac_mgmt_ap.c(2569)" ID="0x4352824" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap:unsup rsn ver=%d} @hmac_mgmt_ap.c(2577)" ID="0x4352844" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid OUI.} @hmac_mgmt_ap.c(2586)" ID="0x4352869" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid group[%d].} @hmac_mgmt_ap.c(2604)" ID="0x43528b0" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid pcip[%d].} @hmac_mgmt_ap.c(2611)" ID="0x43528cc" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_chk_open_action_sec_cap::invalid auth[%d].} @hmac_mgmt_ap.c(2618)" ID="0x43528e8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_alloc_pmksa_entry::alloc memory failed for storing pmksa.} @hmac_mgmt_ap.c(2687)" ID="0x43529fd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_alloc_pmksa_entry::pmksa list is empty.} @hmac_mgmt_ap.c(2710)" ID="0x4352a59" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_clean_expire_pmksa::arg null.} @hmac_mgmt_ap.c(2776)" ID="0x4352b60" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="Mac addr[X:X:X:%x:%x:%x]'s pmkid expire, release pmkid\n @hmac_mgmt_ap.c(2799)" ID="0x4352bbd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_sae_clean_all_pmksa::hmac_vap is null.} @hmac_mgmt_ap.c(2816)" ID="0x4352c00" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @hmac_event.c(2078)" ID="0x4822078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @hmac_event.c(2089)" ID="0x48220a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @hmac_event.c(2100)" ID="0x48220d0" />
@@ -2721,9 +2722,9 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_event_config_syn::pst_mac_vap null.} @hmac_event.c(728)" ID="0x4820b60" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_event_config_syn::invalid en_cfgid[%d]. @hmac_event.c(743)" ID="0x4820b9d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{hmac_event_config_syn::p_set_func failed, ul_ret=%d en_syn_id=%d. @hmac_event.c(753)" ID="0x4820bc5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:: invalid CRX sub-type:%d. @hmac_event.c(808)" ID="0x4820ca0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:: invalid DRX sub-type:%d. @hmac_event.c(821)" ID="0x4820cd4" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:sub_table_item 0x%x, para is null! @hmac_event.c(828)" ID="0x4820cf1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:: invalid CRX sub-type:%d. @hmac_event.c(810)" ID="0x4820ca8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:: invalid DRX sub-type:%d. @hmac_event.c(823)" ID="0x4820cdc" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="hmac_from_dmac_rx_data_handle:sub_table_item 0x%x, para is null! @hmac_event.c(830)" ID="0x4820cf9" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @hmac_wapi_wpi.c(2078)" ID="0x4362078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @hmac_wapi_wpi.c(2089)" ID="0x43620a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @hmac_wapi_wpi.c(2100)" ID="0x43620d0" />
@@ -3208,6 +3209,8 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_rx_process_frame:bit_dscr_status=%d.hal_vap_id=%d} @dmac_rx_data_patch.c(211)" ID="0x49c034d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_rx_process_data_frame_event::dmac_vap is null.} @dmac_rx_data_patch.c(288)" ID="0x49c0480" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_rx_process_data_frame_event::hcc send fail.} @dmac_rx_data_patch.c(328)" ID="0x49c0520" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_rx_filter_frame_ap::pst_dmac_vap null.} @dmac_rx_data_patch.c(485)" ID="0x49c0794" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_rx_send_event return NON SUCCESS.  @dmac_rx_data_patch.c(509)" ID="0x49c07f5" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @dmac_btcoex.c(2078)" ID="0x4462078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @dmac_btcoex.c(2089)" ID="0x44620a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @dmac_btcoex.c(2100)" ID="0x44620d0" />
@@ -3530,29 +3533,29 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_set_cus_dts_cali:: puc_param memcpy fail. @dmac_config.c(3860)" ID="0x44c3c50" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_set_cus_dts_cali:: puc_param + ul_offset memcpy fail. @dmac_config.c(3866)" ID="0x44c3c68" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_set_cus_nvram_params:: invalid len[%d] @dmac_config.c(3904)" ID="0x44c3d00" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_set_cus_nvram_params:: set_osc_drv_vals fail. @dmac_config.c(3945)" ID="0x44c3da4" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_retry_limit:: set succ. retry type = %d, 0-data,1-mgmt,2-timeout. limit = %d} @dmac_config.c(3997)" ID="0x44c3e75" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_get_retry_limit::data_retry_limit is %d,mgmt_retry_limit is %d,retry_timeout is %d} @dmac_config.c(4019)" ID="0x44c3ecd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Do not have two up vap!} @dmac_config.c(4043)" ID="0x44c3f2d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Have two up vap but is not MBR!} @dmac_config.c(4053)" ID="0x44c3f55" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Do not have mesh vap!} @dmac_config.c(4060)" ID="0x44c3f71" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::invalid en_val value!} @dmac_config.c(4066)" ID="0x44c3f89" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mnid:: [MESH]Set Mnid!mnid = %d!} @dmac_config.c(4088)" ID="0x44c3fe1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mnid:: [MESH]current role is MBR!} @dmac_config.c(4135)" ID="0x44c409d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_clear_multi_mac_addr_list::clear multi_mac_addr white list succ, mac addr [X:X:X:X:%x:%x],                  uc_index = %d, vap_index = %d} @dmac_config.c(4192)" ID="0x44c4181" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_clear_multi_mac_addr_list::close multicast white list check!} @dmac_config.c(4208)" ID="0x44c41c1" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::mac_vap_find_user_by_macaddr failed[%d].} @dmac_config.c(4237)" ID="0x44c4235" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::pst_dmac_user null.} @dmac_config.c(4243)" ID="0x44c424d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::the user is not mesh user,unsupport set gtk.} @dmac_config.c(4249)" ID="0x44c4265" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::memcpy_s fail.} @dmac_config.c(4256)" ID="0x44c4281" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_any::deinit trying stop dbac,vap state[%d].} @dmac_config.c(4296)" ID="0x44c4321" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_query_ap_rssi::null pointer user.} @dmac_config.c(4334)" ID="0x44c43b8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_query_ap_rssi::null pointer dmac_user.} @dmac_config.c(4339)" ID="0x44c43cc" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_11i_add_key:msgLen[%d]is wrong} @dmac_config.c(4464)" ID="0x44c45c0" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_11i_add_key::set_reg fail.} @dmac_config.c(4480)" ID="0x44c4600" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_uapsden::null pointer,pst_dmac_user[%d].} @dmac_config.c(4522)" ID="0x44c46a8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_uapsden::al_uapsd_qdepth null.} @dmac_config.c(4530)" ID="0x44c46c8" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_conn_fail_set_channel:coex:handle sta conn_fail @dmac_config.c(4620)" ID="0x44c4831" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_set_cus_nvram_params:: set_osc_drv_vals fail. @dmac_config.c(3948)" ID="0x44c3db0" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_retry_limit:: set succ. retry type = %d, 0-data,1-mgmt,2-timeout. limit = %d} @dmac_config.c(4000)" ID="0x44c3e81" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_get_retry_limit::data_retry_limit is %d,mgmt_retry_limit is %d,retry_timeout is %d} @dmac_config.c(4022)" ID="0x44c3ed9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Do not have two up vap!} @dmac_config.c(4046)" ID="0x44c3f39" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Have two up vap but is not MBR!} @dmac_config.c(4056)" ID="0x44c3f61" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::Do not have mesh vap!} @dmac_config.c(4063)" ID="0x44c3f7d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_mesh_set_en_mbr::invalid en_val value!} @dmac_config.c(4069)" ID="0x44c3f95" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mnid:: [MESH]Set Mnid!mnid = %d!} @dmac_config.c(4091)" ID="0x44c3fed" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mnid:: [MESH]current role is MBR!} @dmac_config.c(4138)" ID="0x44c40a9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_clear_multi_mac_addr_list::clear multi_mac_addr white list succ, mac addr [X:X:X:X:%x:%x],                  uc_index = %d, vap_index = %d} @dmac_config.c(4195)" ID="0x44c418d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_clear_multi_mac_addr_list::close multicast white list check!} @dmac_config.c(4211)" ID="0x44c41cd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::mac_vap_find_user_by_macaddr failed[%d].} @dmac_config.c(4240)" ID="0x44c4241" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::pst_dmac_user null.} @dmac_config.c(4246)" ID="0x44c4259" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::the user is not mesh user,unsupport set gtk.} @dmac_config.c(4252)" ID="0x44c4271" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_mesh_user_gtk::memcpy_s fail.} @dmac_config.c(4259)" ID="0x44c428d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_any::deinit trying stop dbac,vap state[%d].} @dmac_config.c(4299)" ID="0x44c432d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_query_ap_rssi::null pointer user.} @dmac_config.c(4337)" ID="0x44c43c4" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_query_ap_rssi::null pointer dmac_user.} @dmac_config.c(4342)" ID="0x44c43d8" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_11i_add_key:msgLen[%d]is wrong} @dmac_config.c(4467)" ID="0x44c45cc" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_11i_add_key::set_reg fail.} @dmac_config.c(4483)" ID="0x44c460c" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_uapsden::null pointer,pst_dmac_user[%d].} @dmac_config.c(4525)" ID="0x44c46b4" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{dmac_config_set_uapsden::al_uapsd_qdepth null.} @dmac_config.c(4533)" ID="0x44c46d4" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="dmac_config_conn_fail_set_channel:coex:handle sta conn_fail @dmac_config.c(4623)" ID="0x44c483d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address1::memcpy_s fail.} @dmac_psm_ap.c(2078)" ID="0x44d2078" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address2::memcpy_s fail.} @dmac_psm_ap.c(2089)" ID="0x44d20a4" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="{mac_get_address3::memcpy_s fail.} @dmac_psm_ap.c(2100)" ID="0x44d20d0" />
@@ -5723,26 +5726,25 @@
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Group %d not supported by the crypto library @sae.c(87)" ID="0x50c015d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: PWE derivation - addr1=&quot; &quot;%02x:xx:xx:%02x:%02x:%02x @sae.c(135)" ID="0x50c021d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: PWE derivation&quot; &quot; addr2=&quot; &quot;%02x:xx:xx:%02x:%02x:%02x @sae.c(137)" ID="0x50c0225" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Failed to derive PWE @sae.c(373)" ID="0x50c05d5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: counter = %03u @sae.c(377)" ID="0x50c05e5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Could not solve y @sae.c(433)" ID="0x50c06c5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Could not compute commit-element @sae.c(558)" ID="0x50c08b9" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Failed to calculate K and k @sae.c(659)" ID="0x50c0a4d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Proposed group %u not &quot; &quot;enabled in the current configuration @sae.c(841)" ID="0x50c0d25" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Do not allow group to be changed @sae.c(847)" ID="0x50c0d3d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Unsupported Finite Cyclic Group %u @sae.c(853)" ID="0x50c0d55" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Group information not yet initialized @sae.c(858)" ID="0x50c0d69" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Too short optional data (%u octets) to include our Anti-Clogging Token @sae.c(913)" ID="0x50c0e45" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Not enough data for scalar @sae.c(947)" ID="0x50c0ecd" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Do not accept re-use of previous &quot; &quot;peer-commit-scalar @sae.c(964)" ID="0x50c0f11" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Invalid peer scalar @sae.c(973)" ID="0x50c0f35" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Not enough data for &quot; &quot;commit-element @sae.c(996)" ID="0x50c0f91" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Invalid coordinates in peer &quot; &quot;element @sae.c(1009)" ID="0x50c0fc5" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Peer element is not on curve @sae.c(1026)" ID="0x50c1009" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Too short confirm message @sae.c(1311)" ID="0x50c147d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: peer-send-confirm %u @sae.c(1315)" ID="0x50c148d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Temporary data not yet available @sae.c(1319)" ID="0x50c149d" />
-			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Confirm mismatch @sae.c(1347)" ID="0x50c150d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Failed to derive PWE @sae.c(375)" ID="0x50c05dd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: counter = %03u @sae.c(379)" ID="0x50c05ed" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Could not compute commit-element @sae.c(578)" ID="0x50c0909" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Failed to calculate K and k @sae.c(679)" ID="0x50c0a9d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Proposed group %u not &quot; &quot;enabled in the current configuration @sae.c(861)" ID="0x50c0d75" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Do not allow group to be changed @sae.c(867)" ID="0x50c0d8d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Unsupported Finite Cyclic Group %u @sae.c(873)" ID="0x50c0da5" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Group information not yet initialized @sae.c(878)" ID="0x50c0db9" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Too short optional data (%u octets) to include our Anti-Clogging Token @sae.c(933)" ID="0x50c0e95" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Not enough data for scalar @sae.c(967)" ID="0x50c0f1d" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Do not accept re-use of previous &quot; &quot;peer-commit-scalar @sae.c(984)" ID="0x50c0f61" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Invalid peer scalar @sae.c(993)" ID="0x50c0f85" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Not enough data for &quot; &quot;commit-element @sae.c(1016)" ID="0x50c0fe1" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Invalid coordinates in peer &quot; &quot;element @sae.c(1029)" ID="0x50c1015" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Peer element is not on curve @sae.c(1046)" ID="0x50c1059" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Too short confirm message @sae.c(1331)" ID="0x50c14cd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: peer-send-confirm %u @sae.c(1335)" ID="0x50c14dd" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Temporary data not yet available @sae.c(1339)" ID="0x50c14ed" />
+			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="SAE: Confirm mismatch @sae.c(1367)" ID="0x50c155d" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="AES-SIV mode encryption failed @crypto_module_tests.c(98)" ID="0x51c0188" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="AES-SIV mode encryption returned invalid cipher text @crypto_module_tests.c(103)" ID="0x51c019c" />
 			<MSG DESCRIPTION="" STRUCTURE="DIAG_LOG_MSG_S" NAME="AES-SIV mode decryption failed @crypto_module_tests.c(109)" ID="0x51c01b4" />
