@@ -3,8 +3,8 @@
 #
 
 # pkt setting.
-CONFIG_CHIP_PKT_32K=y
-#CONFIG_CHIP_PKT_48K=y
+#CONFIG_CHIP_PKT_32K=y
+CONFIG_CHIP_PKT_48K=y
 
 # OHOS setting.
 CONFIG_OHOS=y
