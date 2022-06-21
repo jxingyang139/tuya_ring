@@ -854,6 +854,25 @@ static hi_s32 vlink_hi_channel_get_utc(char *buf)
 }
 
 
+static hi_s32 vlink_hi_channel_set_msg(hi_char *msg)
+{
+	MLOGD("--start--\n");
+	cJSON * pJsonRoot = NULL;
+	cJSON *pJson = NULL;
+
+	pJsonRoot = cJSON_CreateObject();
+	cJSON_AddStringToObject(pJsonRoot, "cmd", VLINK_WIFI_CMD_NOTIFI_MESSAGE);
+	cJSON_AddStringToObject(pJsonRoot, "notify_type", msg);
+	pJson = cJSON_Print(pJsonRoot);
+
+	//MLOGD("--pJson[%s]-[%d]--\n", pJson, strlen((char*)pJson));
+	hi_channel_send_to_host((char*)pJson, strlen((char*)pJson));
+	free(pJson);
+	cJSON_Delete(pJsonRoot);
+
+}
+
+
 unsigned int hi_channel_rx_callback(char *buf, int length)
 {
 	cJSON* item;
@@ -884,6 +903,10 @@ unsigned int hi_channel_rx_callback(char *buf, int length)
 
 	switch(buf[0])
 	{
+		case CMD_SENDMSG_TEST:
+			vlink_hi_channel_set_msg(NOTIFICATION_NAME_DOORBELL);
+		break;
+
 		case CMD_SENDMSG_NETCFG:
 			vlink_get_ssid_pwd_from_camera(buf, length);
 		break;	

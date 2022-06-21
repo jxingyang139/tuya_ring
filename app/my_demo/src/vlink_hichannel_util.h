@@ -83,24 +83,66 @@
 #define VLINK_WIFI_CMD_SENDMSG_OTADATA		"10"
 #define VLINK_WIFI_CMD_SENDMSG_OTAWRITERET	"11"
 #define VLINK_WIFI_CMD_SENDMSG_OTARET		"12"
-#define VLINK_WIFI_CMD_SENDMSG_TUYA_LINK	"13"
-#define VLINK_WIFI_CMD_SENDMSG_UTC_LINK		"14"
+/*for tuya lowpoer protocal*/
+#define VLINK_WIFI_CMD_SENDMSG_TUYA_LINK	"19"
+#define VLINK_WIFI_CMD_SENDMSG_UTC_LINK		"20"
+/*device messge to host*/
+#define VLINK_WIFI_CMD_NOTIFI_MESSAGE		"21"
 
 
-#define CMD_SENDMSG_NETCFG		0x01
-#define CMD_SENDMSG_GETMAC		0x02
-#define CMD_SENDMSG_GETIP		0x03
-#define CMD_SENDMSG_SETFILTER		0x04	
-#define CMD_SENDMSG_KEEPLIVE		0x05
-#define CMD_SENDMSG_STANDBY		0x06
-#define CMD_SENDMSG_DEEPSLEEP		0x07
-#define CMD_SENDMSG_STARTAP		0x08
-#define CMD_SENDMSG_STARTOTA		0x09
-#define CMD_SENDMSG_OTADATA		0x0a
-#define CMD_SENDMSG_OTAWRITERET		0x0b
-#define CMD_SENDMSG_OTARET		0x0c
-#define CMD_SENDMSG_TUYA_SERVER_LINK	0x13
-#define CMD_SENDMSG_GET_UTC_TIME		0x14
+typedef enum {
+    /*for device and host trans signal*/
+    CMD_SENDMSG_TEST                = 30,
+    CMD_SENDMSG_NETCFG              = 1,
+    CMD_SENDMSG_GETMAC              = 2,
+    CMD_SENDMSG_GETIP               = 3,
+    CMD_SENDMSG_SETFILTER           = 4,
+    CMD_SENDMSG_KEEPLIVE            = 5,
+    CMD_SENDMSG_STANDBY             = 6,
+    CMD_SENDMSG_DEEPSLEEP           = 7,
+    CMD_SENDMSG_STARTAP             = 8,
+    CMD_SENDMSG_STARTOTA            = 9,
+    CMD_SENDMSG_OTADATA             = 10,
+    CMD_SENDMSG_OTAWRITERET         = 11,
+    CMD_SENDMSG_OTARET              = 12,
+    CMD_SENDMSG_GET_RSSI            = 13,
+    CMD_SENDMSG_GET_VERSION         = 14,
+    CMD_SENDMSG_GET_WAKECODE        = 15,
+    CMD_SENDMSG_FACTORY_RESET       = 16,
+    CMD_SENDMSG_PIR_SET             = 17,
+    CMD_SENDMSG_PIR_GET             = 18,
+    CMD_SENDMSG_TUYA_SERVER_LINK    = 19,
+    CMD_SENDMSG_GET_UTC_TIME        = 20,
+    /*this messgae will be generate from device, send to host*/
+    CMD_NOTIFI_MESSAGE              = 21,
+}VLINK_CMD_MSG_NAME_e;;
+
+
+/*message come from device*/
+#define    NOTIFICATION_NAME_MOTION             "0"     /* 移动侦测 */
+#define    NOTIFICATION_NAME_DOORBELL           "1"     /* 门铃按下 */
+#define    NOTIFICATION_NAME_DEV_LINK           "2"     /* IOT设备联动触发 */
+#define    NOTIFICATION_NAME_PASSBY             "3"     /* 正常经过 */
+#define    NOTIFICATION_NAME_LINGER             "4"     /* 异常逗留 */
+#define    NOTIFICATION_NAME_MESSAGE            "5"     /* 留言信息 */
+#define    NOTIFICATION_NAME_CALL_ACCEPT        "6"     /* 门铃接听 */
+#define    NOTIFICATION_NAME_CALL_NOT_ACCEPT    "7"     /* 门铃未接听 */
+#define    NOTIFICATION_NAME_CALL_REFUSE        "8"     /* 门铃拒绝接听 */
+#define    NOTIFICATION_NAME_HUMAN              "9"     /* 人形检测 */
+#define    NOTIFICATION_NAME_PCD                "10"    /* 宠物检测 */
+#define    NOTIFICATION_NAME_CAR                "11"    /* 车辆检测 */
+#define    NOTIFICATION_NAME_BABY_CRY           "12"    /* 婴儿哭声 */
+#define    NOTIFICATION_NAME_ABNORMAL_SOUND     "13"    /* 声音异响 */
+#define    NOTIFICATION_NAME_FACE               "14"    /* 人脸检测 */
+#define    NOTIFICATION_NAME_ANTIBREAK          "15"    /* 强拆告警 */
+#define    NOTIFICATION_NAME_RECORD_ONLY        "16"    /* 占位，无意义 */
+#define    NOTIFICATION_NAME_IO_ALARM           "17"    /* 本地IO设备触发 */
+#define    NOTIFICATION_NAME_LOW_BATTERY        "18"    /* 低电量*/
+#define    NOTIFICATION_NAME_NOUSE              "19"    /* 忽略*/
+#define    NOTIFICATION_NAME_COVER              "20"    /* 封面 */
+#define    NOTIFICATION_NAME_FULL_BATTERY       "21"    /* 电量满 */
+#define    NOTIFICATION_NAME_USER_IO            "22"    /* 本地IO设备触发-2 */
+#define    NOTIFY_TYPE_MAX
 
 
 /* note:must add packed attribute for nv param struct */
