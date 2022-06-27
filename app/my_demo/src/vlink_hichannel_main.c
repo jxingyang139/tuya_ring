@@ -182,7 +182,6 @@ static hi_void vlink_wifi_wpa_start_dhcp(hi_void)
 		else {
 			MLOGD("========DHCP ok=======\r\n");
 
-			/*[jiaxing]tmp comment*/
 			/*
 			vlink_hi_channel_get_ip();
 			//PDT_SYSTEM_SYSLINK_FillNetConnectInfoMsgToCamera("dhcpok");
@@ -272,9 +271,7 @@ static hi_s32 vlink_start_sta_connect_dhcp(hi_void)
 	} else { //open
 		assoc_req.auth = HI_WIFI_SECURITY_OPEN;
 	}
-	MLOGE("jiaxing[%s]\n",ifname);
 
-	//[temp comment, jiaxing]
 	vlink_test_stop_softap_station();
 /*
 	ret = hi_wifi_init(APP_INIT_VAP_NUM, APP_INIT_USR_NUM);
@@ -288,13 +285,11 @@ static hi_s32 vlink_start_sta_connect_dhcp(hi_void)
 		MLOGE("vlink_wpa_connect_ap=hi_wifi_sta_start==%x\n", ret);
 		return HI_ERR_FAILURE;
 	}
-	MLOGE("jiaxing[%s]\n",ifname);
 
 	if (hi_vlwip_netif_init(ifname) != HI_ERR_SUCCESS) {
 		MLOGE("hi_vlwip_netif_init:: netif[%s] failed\n", ifname);
 		return HI_ERR_FAILURE;
 	}
-	MLOGE("jiaxing[%s]\n",ifname);
 
 	/* acquire netif for IP operation */
 	g_lwip_netif = netifapi_netif_find(ifname);
@@ -302,7 +297,6 @@ static hi_s32 vlink_start_sta_connect_dhcp(hi_void)
 		MLOGE("%s: get netif failed\n", __FUNCTION__);
 		return HI_ERR_FAILURE;
 	}
-	MLOGE("jiaxing[%s]\n",ifname);
 
 	ret = hi_wifi_register_event_callback(vlink_wifi_wpa_event_cb);
 	if (ret != HISI_OK) {
@@ -601,9 +595,9 @@ static hi_s32 vlink_hi_channel_get_ip(hi_void)
 	*/
 
 	if(ret == HI_ERR_SUCCESS)
-		MLOGD("[jiaxing]send msg to host success!\n");
+		MLOGD("send msg to host success!\n");
 	else
-		MLOGD("[jiaxing]send msg to host fail!\n");
+		MLOGD("send msg to host fail!\n");
 
 	free(pJson);
 	cJSON_Delete(pJsonRoot);
@@ -1292,7 +1286,7 @@ static hi_void *vlink_main_task(hi_void *param)
 
 	//return;
 	//vlink_start_softap_task();
-	vlink_gpio_power_on(); 			 //@jiaxing temp comment
+	vlink_gpio_power_on();
 	//vlink_test_function_main();
 
 	vlink_HI_PDT_PARAM_GetSystemStatus(&status);

@@ -136,8 +136,6 @@ static hi_void *sdio_init_task_body(hi_void *param)
 	/*
     do {
         hi_u32 ret = hi_sdio_init();
-		
-    	printf("[jiaxing] hi sdio loop\r\n");
         if (ret == HI_ERR_SUCCESS) {
             printf("sdio driver init success\r\n");
             break;
@@ -159,8 +157,6 @@ static hi_void *sdio_init_task_body(hi_void *param)
 hi_u32 app_sdio_init(hi_void)
 {
     /* Create a task to init sdio */
-    printf("[jiaxing][%s %d]\n",__FUNCTION__,__LINE__);
-
     hi_u32 sdio_init_task_id = 0;
     hi_task_attr attr = {0};
     attr.stack_size = APP_SDIO_INIT_TASK_SIZE;

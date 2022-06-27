@@ -85,10 +85,10 @@ static hi_s32 vlink_PDT_PARAM_SetParam(hi_u8 id, hi_void *data, hi_u8 len, hi_u3
 
     result = hi_nv_write(id, data, len, flag);
     if (result != HI_ERR_SUCCESS) {
-        MLOGE("[jiaxing]hi_nv_write 0x%x failed.\n", id);
+        MLOGE("hi_nv_write 0x%x failed.\n", id);
         ret = HI_ERR_FAILURE;
     } else {
-        MLOGD("[jiaxing]hi_nv_write 0x%x success.\n", id);
+        MLOGD("hi_nv_write 0x%x success.\n", id);
         ret = HI_ERR_SUCCESS;
     }
 
